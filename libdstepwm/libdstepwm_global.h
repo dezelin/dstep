@@ -1,0 +1,12 @@
+#ifndef LIBDSTEPWM_GLOBAL_H
+#define LIBDSTEPWM_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(LIBDSTEPWM_LIBRARY)
+#  define LIBDSTEPWMSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define LIBDSTEPWMSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LIBDSTEPWM_GLOBAL_H
