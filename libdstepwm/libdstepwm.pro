@@ -34,11 +34,19 @@ TEMPLATE = lib
 DEFINES += LIBDSTEPWM_LIBRARY
 
 SOURCES += libdstepwm.cpp \
-    window.cpp
+    window.cpp \
+    windowtheme.cpp \
+    windowdecorator.cpp \
+    windowmanager.cpp \
+    eventloop.cpp
 
 HEADERS += libdstepwm.h\
         libdstepwm_global.h \
-    window.h
+    window.h \
+    windowtheme.h \
+    windowdecorator.h \
+    windowmanager.h \
+    eventloop.h
 
 unix {
     target.path = /usr/lib
