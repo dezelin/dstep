@@ -17,6 +17,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp
 
+unix {
+    target.path = /usr/bin
+    INSTALLS += target
+}
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepwm/release/ -ldstepwm
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libdstepwm/debug/ -ldstepwm
 else:unix: LIBS += -L$$OUT_PWD/../libdstepwm/ -ldstepwm

@@ -19,6 +19,11 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+unix {
+    target.path = /usr/bin
+    INSTALLS += target
+}
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepshell/release/ -ldstepshell
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libdstepshell/debug/ -ldstepshell
 else:unix: LIBS += -L$$OUT_PWD/../libdstepshell/ -ldstepshell
