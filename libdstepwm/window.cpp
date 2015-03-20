@@ -24,9 +24,9 @@
 // SUCH DAMAGE.
 //
 
-#include "libdstepwm.h"
+#include "window.h"
 
-
-Libdstepwm::Libdstepwm()
+Window::Window(QObject *parent) :
+    QObject(parent)
 {
 }

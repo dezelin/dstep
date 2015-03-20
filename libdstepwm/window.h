@@ -24,9 +24,21 @@
 // SUCH DAMAGE.
 //
 
-#include "libdstepwm.h"
+#ifndef WINDOW_H
+#define WINDOW_H
 
+#include <QObject>
 
-Libdstepwm::Libdstepwm()
+class Window : public QObject
 {
-}
+    Q_OBJECT
+public:
+    explicit Window(QObject *parent = 0);
+
+signals:
+
+public slots:
+
+};
+
+#endif // WINDOW_H
