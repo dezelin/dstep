@@ -26,7 +26,15 @@
 
 #include "window.h"
 
+namespace dstep
+{
+namespace wm
+{
+
 Window::Window(QObject *parent) :
     QObject(parent)
 {
 }
+
+} // namespace wm
+} // namespace dstep

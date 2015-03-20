@@ -27,9 +27,16 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "libdstepwm_global.h"
+
 #include <QObject>
 
-class Window : public QObject
+namespace dstep
+{
+namespace wm
+{
+
+class LIBDSTEPWMSHARED_EXPORT Window : public QObject
 {
     Q_OBJECT
 public:
@@ -40,5 +47,8 @@ signals:
 public slots:
 
 };
+
+} // namespace wm
+} // namespace dstep
 
 #endif // WINDOW_H
