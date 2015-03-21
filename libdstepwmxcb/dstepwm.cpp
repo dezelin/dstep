@@ -24,16 +24,28 @@
 // SUCH DAMAGE.
 //
 
-#include "windowmanager.h"
+#include "dstepwm.h"
 
 namespace dstep
 {
 namespace wm
 {
 
-WindowManager::WindowManager(QObject *parent) :
-    QObject(parent)
+class DstepWm::DstepWmImpl
 {
+
+};
+
+DstepWm::DstepWm(QObject *parent) :
+    QObject(parent),
+    dstep::wm::interfaces::WindowManager(),
+    m_impl(new DstepWmImpl)
+{
+}
+
+int DstepWm::run()
+{
+    return 0;
 }
 
 } // namespace wm

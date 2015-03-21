@@ -27,28 +27,26 @@
 #ifndef WINDOWDECORATOR_H
 #define WINDOWDECORATOR_H
 
-#include "libdstepwm_global.h"
-
-#include <QObject>
+#include <QtPlugin>
 
 namespace dstep
 {
 namespace wm
 {
-
-class LIBDSTEPWMSHARED_EXPORT WindowDecorator : public QObject
+namespace interfaces
 {
-    Q_OBJECT
+
+class WindowDecorator
+{
 public:
-    explicit WindowDecorator(QObject *parent = 0);
-
-signals:
-
-public slots:
 
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
+
+#define WindowDecorator_iid "org.dstep.wm.interfaces.WindowDecorator/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::WindowDecorator, WindowDecorator_iid)
 
 #endif // WINDOWDECORATOR_H

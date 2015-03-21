@@ -27,26 +27,27 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
-#include <QObject>
+#include <QtPlugin>
 
 namespace dstep
 {
 namespace wm
 {
-
-class WindowManager : public QObject
+namespace interfaces
 {
-    Q_OBJECT
+
+class WindowManager
+{
 public:
-    explicit WindowManager(QObject *parent = 0);
-
-signals:
-
-public slots:
+    virtual int run() = 0;
 
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
+
+#define WindowManager_iid "org.dstep.wm.interfaces.WindowManager/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::WindowManager, WindowManager_iid)
 
 #endif // WINDOWMANAGER_H

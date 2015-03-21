@@ -24,11 +24,20 @@
 // SUCH DAMAGE.
 //
 
+#include <QtCore>
 #include <QCoreApplication>
+
+#include "dstepwmtask.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    // Create main task and run it inside application event loop
+    dstep::wm::DstepWmTask *task = new dstep::wm::DstepWmTask(&a);
+    QObject::connect(task, &dstep::wm::DstepWmTask::finished, &a,
+                     &QCoreApplication::exit);
+    QTimer::singleShot(0, task, &dstep::wm::DstepWmTask::run);
 
     return a.exec();
 }

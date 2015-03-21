@@ -33,12 +33,24 @@ TEMPLATE = lib
 
 DEFINES += LIBDSTEPWMXCB_LIBRARY
 
-SOURCES += libdstepwmxcb.cpp
+SOURCES += libdstepwmxcb.cpp \
+    dstepwm.cpp
 
 HEADERS += libdstepwmxcb.h\
-        libdstepwmxcb_global.h
+        libdstepwmxcb_global.h \
+    dstepwm.h
+
+OTHER_FILES += \
+    dstepwm.json
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepwm/release/ -ldstepwm
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libdstepwm/debug/ -ldstepwm
+else:unix: LIBS += -L$$OUT_PWD/../libdstepwm/ -ldstepwm
+
+INCLUDEPATH += $$PWD/../libdstepwm
+DEPENDPATH += $$PWD/../libdstepwm

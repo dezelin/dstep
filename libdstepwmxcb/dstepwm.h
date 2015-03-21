@@ -24,17 +24,42 @@
 // SUCH DAMAGE.
 //
 
-#include "eventloop.h"
+#ifndef DSTEPWM_H
+#define DSTEPWM_H
+
+#include <windowmanager.h>
 
 namespace dstep
 {
 namespace wm
 {
 
-EventLoop::EventLoop(QObject *parent) :
-    QObject(parent)
+class DstepWm : public QObject,
+        public dstep::wm::interfaces::WindowManager
 {
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID WindowManager_iid FILE "dstepwm.json")
+    Q_INTERFACES(dstep::wm::interfaces::WindowManager)
+public:
+    explicit DstepWm(QObject *parent = 0);
+
+    //
+    // WindowManager interface
+    //
+
+    virtual int run();
+
+
+signals:
+
+public slots:
+
+private:
+    class DstepWmImpl;
+    DstepWmImpl *m_impl;
+};
 
 } // namespace wm
 } // namespace dstep
+
+#endif // DSTEPWM_H

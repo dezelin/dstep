@@ -24,16 +24,37 @@
 // SUCH DAMAGE.
 //
 
-#include "windowtheme.h"
+#include <QCoreApplication>
+
+#include "dstepwmtask.h"
 
 namespace dstep
 {
 namespace wm
 {
 
-WindowTheme::WindowTheme(QObject *parent) :
-    QObject(parent)
+class DstepWmTask::DstepWmTaskImpl
 {
+public:
+    DstepWmTaskImpl(QCoreApplication *parent) :
+        m_app(parent)
+    {
+        Q_ASSERT(parent);
+    }
+
+private:
+    QCoreApplication *m_app;
+};
+
+DstepWmTask::DstepWmTask(QCoreApplication *app) :
+    QObject(app), m_impl(new DstepWmTaskImpl(app))
+{
+    Q_ASSERT(app);
+}
+
+void DstepWmTask::run()
+{
+    finished(1);
 }
 
 } // namespace wm

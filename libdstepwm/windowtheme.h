@@ -27,28 +27,26 @@
 #ifndef WINDOWTHEME_H
 #define WINDOWTHEME_H
 
-#include "libdstepwm_global.h"
-
-#include <QObject>
+#include <QtPlugin>
 
 namespace dstep
 {
 namespace wm
 {
-
-class LIBDSTEPWMSHARED_EXPORT WindowTheme : public QObject
+namespace interfaces
 {
-    Q_OBJECT
+
+class WindowTheme
+{
 public:
-    explicit WindowTheme(QObject *parent = 0);
-
-signals:
-
-public slots:
 
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
+
+#define WindowTheme_iid "org.dstep.wm.interfaces.WindowTheme/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::WindowTheme, WindowTheme_iid)
 
 #endif // WINDOWTHEME_H

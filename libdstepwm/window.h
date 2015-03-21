@@ -27,28 +27,26 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "libdstepwm_global.h"
-
-#include <QObject>
+#include <QtPlugin>
 
 namespace dstep
 {
 namespace wm
 {
-
-class LIBDSTEPWMSHARED_EXPORT Window : public QObject
+namespace interfaces
 {
-    Q_OBJECT
+
+class Window
+{
 public:
-    explicit Window(QObject *parent = 0);
-
-signals:
-
-public slots:
 
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
+
+#define Window_iid "org.dstep.wm.interfaces.Window/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::Window, Window_iid)
 
 #endif // WINDOW_H

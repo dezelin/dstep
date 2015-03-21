@@ -24,17 +24,38 @@
 // SUCH DAMAGE.
 //
 
-#include "window.h"
+#ifndef DSTEPWMTASK_H
+#define DSTEPWMTASK_H
+
+#include <QCoreApplication>
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-Window::Window(QObject *parent) :
-    QObject(parent)
+class DstepWmTask : public QObject
 {
-}
+    Q_OBJECT
+public:
+    explicit DstepWmTask(QCoreApplication *app = 0);
+
+signals:
+    void finished(int status);
+
+public slots:
+    void run();
+
+private:
+    int init();
+
+private:
+    class DstepWmTaskImpl;
+    DstepWmTaskImpl *m_impl;
+};
 
 } // namespace wm
 } // namespace dstep
+
+#endif // DSTEPWMTASK_H

@@ -35,7 +35,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    dstepwmtask.cpp
 
 unix {
     target.path = /usr/bin
@@ -48,3 +49,6 @@ else:unix: LIBS += -L$$OUT_PWD/../libdstepwm/ -ldstepwm
 
 INCLUDEPATH += $$PWD/../libdstepwm
 DEPENDPATH += $$PWD/../libdstepwm
+
+HEADERS += \
+    dstepwmtask.h

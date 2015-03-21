@@ -27,28 +27,26 @@
 #ifndef EVENTLOOP_H
 #define EVENTLOOP_H
 
-#include "libdstepwm_global.h"
-
-#include <QObject>
+#include <QtPlugin>
 
 namespace dstep
 {
 namespace wm
 {
-
-class LIBDSTEPWMSHARED_EXPORT EventLoop : public QObject
+namespace interfaces
 {
-    Q_OBJECT
+
+class EventLoop
+{
 public:
-    explicit EventLoop(QObject *parent = 0);
-
-signals:
-
-public slots:
 
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
+
+#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
 
 #endif // EVENTLOOP_H
