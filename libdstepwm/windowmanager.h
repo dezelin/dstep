@@ -39,6 +39,10 @@ namespace interfaces
 class WindowManager
 {
 public:
+    virtual ~WindowManager()
+    {
+    }
+
     virtual int run() = 0;
 
 };

@@ -24,32 +24,33 @@
 // SUCH DAMAGE.
 //
 
-#ifndef EVENTLOOP_H
-#define EVENTLOOP_H
+#include "dsteplog.h"
 
-#include <QtPlugin>
+#include <QtDebug>
 
 namespace dstep
 {
 namespace wm
 {
-namespace interfaces
+
+// time - pid - thread id - category - file - line - message
+#define LOG_MESSAGE_PATTERN \
+    "[%{time h:mm:ss.zzz} " \
+    "%{pid} " \
+    "%{threadid} " \
+    "%{if-debug}D%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] " \
+    "%{file}:%{line} - %{message}"
+
+DstepLog::DstepLog(QObject *parent) :
+    QObject(parent)
 {
+}
 
-class EventLoop
+int DstepLog::init()
 {
-public:
-    virtual ~EventLoop()
-    {
-    }
+    qSetMessagePattern(LOG_MESSAGE_PATTERN);
+    return 0;
+}
 
-};
-
-} // namespace interfaces
 } // namespace wm
 } // namespace dstep
-
-#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
-
-#endif // EVENTLOOP_H

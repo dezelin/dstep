@@ -41,7 +41,10 @@ HEADERS += libdstepwm.h\
     windowtheme.h \
     windowdecorator.h \
     windowmanager.h \
-    eventloop.h
+    eventloop.h \
+    objectfactory.h \
+    dstepwmplugin.h \
+    dstepwmpimpl.h
 
 unix {
     target.path = /usr/lib

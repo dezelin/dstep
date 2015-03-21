@@ -24,24 +24,27 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWM_H
-#define DSTEPWM_H
+#ifndef DSTEPWMXCB_H
+#define DSTEPWMXCB_H
 
+#include <dstepwmpimpl.h>
 #include <windowmanager.h>
+
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-class DstepWm : public QObject,
-        public dstep::wm::interfaces::WindowManager
+using namespace dstep::wm::interfaces;
+
+class DstepWmXcb : public QObject, public WindowManager
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID WindowManager_iid FILE "dstepwm.json")
     Q_INTERFACES(dstep::wm::interfaces::WindowManager)
 public:
-    explicit DstepWm(QObject *parent = 0);
+    explicit DstepWmXcb(QObject *parent = 0);
 
     //
     // WindowManager interface
@@ -55,11 +58,10 @@ signals:
 public slots:
 
 private:
-    class DstepWmImpl;
-    DstepWmImpl *m_impl;
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb);
 };
 
 } // namespace wm
 } // namespace dstep
 
-#endif // DSTEPWM_H
+#endif // DSTEPWMXCB_H

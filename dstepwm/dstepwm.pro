@@ -36,7 +36,18 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    dstepwmtask.cpp
+    dstepwmtask.cpp \
+    pluginmanager.cpp \
+    dsteplog.cpp
+
+HEADERS += \
+    dstepwmtask.h \
+    pluginmanager.h \
+    dsteplog.h
+
+RESOURCES +=
+
+OTHER_FILES +=
 
 unix {
     target.path = /usr/bin
@@ -49,6 +60,3 @@ else:unix: LIBS += -L$$OUT_PWD/../libdstepwm/ -ldstepwm
 
 INCLUDEPATH += $$PWD/../libdstepwm
 DEPENDPATH += $$PWD/../libdstepwm
-
-HEADERS += \
-    dstepwmtask.h

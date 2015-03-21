@@ -39,6 +39,9 @@ namespace interfaces
 class WindowDecorator
 {
 public:
+    virtual ~WindowDecorator()
+    {
+    }
 
 };
 

@@ -24,32 +24,19 @@
 // SUCH DAMAGE.
 //
 
-#ifndef EVENTLOOP_H
-#define EVENTLOOP_H
+#ifndef DSTEPWMPIMPL_H
+#define DSTEPWMPIMPL_H
 
-#include <QtPlugin>
+#include <qglobal.h>
 
-namespace dstep
-{
-namespace wm
-{
-namespace interfaces
-{
+#define DSTEPWM_DECLARE_PRIVATE(Class) \
+    class Class##Private; \
+    class Class##Private * const d_ptr; \
+    Q_DECLARE_PRIVATE(Class); \
+    Q_DISABLE_COPY(Class);
 
-class EventLoop
-{
-public:
-    virtual ~EventLoop()
-    {
-    }
+#define DSTEPWM_DECLARE_PUBLIC(Class) \
+    class Class * const q_ptr; \
+    Q_DECLARE_PUBLIC(Class);
 
-};
-
-} // namespace interfaces
-} // namespace wm
-} // namespace dstep
-
-#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
-
-#endif // EVENTLOOP_H
+#endif // DSTEPWMPIMPL_H

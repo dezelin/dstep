@@ -39,6 +39,9 @@ namespace interfaces
 class Window
 {
 public:
+    virtual ~Window()
+    {
+    }
 
 };
 

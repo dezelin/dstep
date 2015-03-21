@@ -24,37 +24,101 @@
 // SUCH DAMAGE.
 //
 
-#include <QCoreApplication>
-
 #include "dstepwmtask.h"
+#include "objectfactory.h"
+#include "pluginmanager.h"
+
+#include <dstepwmpimpl.h>
+#include <windowmanager.h>
+
+#include <QCoreApplication>
+#include <QPointer>
+#include <QScopedPointer>
+#include <QtDebug>
 
 namespace dstep
 {
 namespace wm
 {
 
-class DstepWmTask::DstepWmTaskImpl
+using namespace interfaces;
+
+class DstepWmTask::DstepWmTaskPrivate
 {
 public:
-    DstepWmTaskImpl(QCoreApplication *parent) :
-        m_app(parent)
+    DstepWmTaskPrivate(DstepWmTask *parent) :
+        q_ptr(parent),
+        m_pm(new PluginManager)
     {
-        Q_ASSERT(parent);
+    }
+
+    int init()
+    {
+        int ret;
+        if ((ret = loadPlugins()) < 0)
+            return ret;
+
+        return 0;
+    }
+
+    int run()
+    {
+        return 0;
     }
 
 private:
-    QCoreApplication *m_app;
+    int loadPlugins()
+    {
+        Q_ASSERT(m_pm);
+
+        int ret;
+        if ((ret = m_pm->loadPlugins()) < 0) {
+            qDebug() << "Can't load plugins: " << ret;
+            return ret;
+        }
+
+        QScopedPointer<ObjectFactory> fac(m_pm->createObjectFactory());
+        if (!fac) {
+            qDebug() << "Can't create object factory.";
+            return -1;
+        }
+
+        m_wm.reset(fac->createWindowManager());
+        if (!m_wm) {
+            qDebug() << "Can't create window manager.";
+            return -1;
+        }
+
+        return 0;
+    }
+
+private:
+    DSTEPWM_DECLARE_PUBLIC(DstepWmTask);
+    QScopedPointer<PluginManager> m_pm;
+    QScopedPointer<WindowManager> m_wm;
 };
 
-DstepWmTask::DstepWmTask(QCoreApplication *app) :
-    QObject(app), m_impl(new DstepWmTaskImpl(app))
+DstepWmTask::DstepWmTask(QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmTaskPrivate(this))
 {
-    Q_ASSERT(app);
+    Q_ASSERT(parent);
+}
+
+DstepWmTask::~DstepWmTask()
+{
+    Q_D(DstepWmTask);
+    delete d;
 }
 
 void DstepWmTask::run()
 {
-    finished(1);
+    Q_D(DstepWmTask);
+
+    int ret;
+    if ((ret = d->init()) == 0)
+        ret = d->run();
+
+    finished(-ret);
 }
 
 } // namespace wm

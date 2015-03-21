@@ -30,21 +30,26 @@ QT       -= gui
 
 TARGET = dstepwmxcb
 TEMPLATE = lib
+CONFIG += plugin
 
 DEFINES += LIBDSTEPWMXCB_LIBRARY
 
 SOURCES += libdstepwmxcb.cpp \
-    dstepwm.cpp
+    dstepwmxcbobjectfactory.cpp \
+    dstepwmxcb.cpp \
+    dstepwmxcbplugin.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
-    dstepwm.h
+    dstepwmxcbobjectfactory.h \
+    dstepwmxcb.h \
+    dstepwmxcbplugin.h
 
 OTHER_FILES += \
-    dstepwm.json
+    dstepwmxcb.json
 
 unix {
-    target.path = /usr/lib
+    target.path = $$[QT_INSTALL_PLUGINS]/dstepwm
     INSTALLS += target
 }
 

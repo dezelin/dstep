@@ -24,8 +24,10 @@
 // SUCH DAMAGE.
 //
 
-#ifndef EVENTLOOP_H
-#define EVENTLOOP_H
+#ifndef DSTEPWMPLUGIN_H
+#define DSTEPWMPLUGIN_H
+
+#include "objectfactory.h"
 
 #include <QtPlugin>
 
@@ -36,12 +38,18 @@ namespace wm
 namespace interfaces
 {
 
-class EventLoop
+class DstepWmPlugin
 {
 public:
-    virtual ~EventLoop()
+    virtual ~DstepWmPlugin()
     {
     }
+
+    virtual ObjectFactory *createObjectFactory(QObject *parent = 0) const = 0;
+
+signals:
+
+public slots:
 
 };
 
@@ -49,7 +57,7 @@ public:
 } // namespace wm
 } // namespace dstep
 
-#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
+#define DstepWmPlugin_iid "org.dstep.wm.interfaces.DstepWmPlugin/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::DstepWmPlugin, DstepWmPlugin_iid)
 
-#endif // EVENTLOOP_H
+#endif // DSTEPWMPLUGIN_H

@@ -27,6 +27,8 @@
 #ifndef DSTEPWMTASK_H
 #define DSTEPWMTASK_H
 
+#include <dstepwmpimpl.h>
+
 #include <QCoreApplication>
 #include <QObject>
 
@@ -39,7 +41,8 @@ class DstepWmTask : public QObject
 {
     Q_OBJECT
 public:
-    explicit DstepWmTask(QCoreApplication *app = 0);
+    explicit DstepWmTask(QObject *parent = 0);
+    virtual ~DstepWmTask();
 
 signals:
     void finished(int status);
@@ -48,11 +51,7 @@ public slots:
     void run();
 
 private:
-    int init();
-
-private:
-    class DstepWmTaskImpl;
-    DstepWmTaskImpl *m_impl;
+    DSTEPWM_DECLARE_PRIVATE(DstepWmTask);
 };
 
 } // namespace wm

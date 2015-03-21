@@ -24,8 +24,10 @@
 // SUCH DAMAGE.
 //
 
-#ifndef EVENTLOOP_H
-#define EVENTLOOP_H
+#ifndef OBJECTFACTORY_H
+#define OBJECTFACTORY_H
+
+#include "windowmanager.h"
 
 #include <QtPlugin>
 
@@ -36,12 +38,14 @@ namespace wm
 namespace interfaces
 {
 
-class EventLoop
+class ObjectFactory
 {
 public:
-    virtual ~EventLoop()
+    virtual ~ObjectFactory()
     {
     }
+
+    virtual WindowManager *createWindowManager() const = 0;
 
 };
 
@@ -49,7 +53,7 @@ public:
 } // namespace wm
 } // namespace dstep
 
-#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
+#define ObjectFactory_iid "org.dstep.wm.interfaces.ObjectFactory/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::ObjectFactory, ObjectFactory_iid)
 
-#endif // EVENTLOOP_H
+#endif // OBJECTFACTORY_H

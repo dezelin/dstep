@@ -24,32 +24,32 @@
 // SUCH DAMAGE.
 //
 
-#ifndef EVENTLOOP_H
-#define EVENTLOOP_H
+#ifndef DSTEPLOG_H
+#define DSTEPLOG_H
 
-#include <QtPlugin>
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
-namespace interfaces
-{
 
-class EventLoop
+class DstepLog : public QObject
 {
+    Q_OBJECT
+private:
+    explicit DstepLog(QObject *parent = 0);
+
 public:
-    virtual ~EventLoop()
-    {
-    }
+    static int init();
+
+signals:
+
+public slots:
 
 };
 
-} // namespace interfaces
 } // namespace wm
 } // namespace dstep
 
-#define EventLoop_iid "org.dstep.wm.interfaces.EventLoop/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventLoop, EventLoop_iid)
-
-#endif // EVENTLOOP_H
+#endif // DSTEPLOG_H

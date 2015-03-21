@@ -39,6 +39,9 @@ namespace interfaces
 class WindowTheme
 {
 public:
+    virtual ~WindowTheme()
+    {
+    }
 
 };
 

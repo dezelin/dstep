@@ -24,14 +24,19 @@
 // SUCH DAMAGE.
 //
 
+#include "dstepwmtask.h"
+#include "dsteplog.h"
+
 #include <QtCore>
 #include <QCoreApplication>
 
-#include "dstepwmtask.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    // Setup logging
+    dstep::wm::DstepLog::init();
 
     // Create main task and run it inside application event loop
     dstep::wm::DstepWmTask *task = new dstep::wm::DstepWmTask(&a);

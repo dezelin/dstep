@@ -24,26 +24,34 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwm.h"
+#include "dstepwmxcb.h"
+
+#include <dstepwmpimpl.h>
 
 namespace dstep
 {
 namespace wm
 {
 
-class DstepWm::DstepWmImpl
+class DstepWmXcb::DstepWmXcbPrivate
 {
+public:
+    DstepWmXcbPrivate(DstepWmXcb *parent)
+        : q_ptr(parent)
+    {
+    }
 
+private:
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb);
 };
 
-DstepWm::DstepWm(QObject *parent) :
+DstepWmXcb::DstepWmXcb(QObject *parent) :
     QObject(parent),
-    dstep::wm::interfaces::WindowManager(),
-    m_impl(new DstepWmImpl)
+    d_ptr(new DstepWmXcbPrivate(this))
 {
 }
 
-int DstepWm::run()
+int DstepWmXcb::run()
 {
     return 0;
 }
