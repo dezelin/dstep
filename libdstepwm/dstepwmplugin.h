@@ -46,7 +46,7 @@ public:
     {
     }
 
-    virtual ObjectFactory *createObjectFactory(QObject *parent = 0) const = 0;
+    virtual ObjectFactory *createObjectFactory() const = 0;
 
 signals:
 

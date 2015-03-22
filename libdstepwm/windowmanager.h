@@ -27,6 +27,9 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
+#include <eventloop.h>
+#include <windowdecorator.h>
+
 #include <QtPlugin>
 
 namespace dstep
@@ -42,6 +45,12 @@ public:
     virtual ~WindowManager()
     {
     }
+
+    virtual EventLoop *eventLoop() const = 0;
+    virtual void setEventLoop(EventLoop *eventLoop) = 0;
+
+    virtual WindowDecorator *decorator() const = 0;
+    virtual void setWindowDecorator(WindowDecorator *decorator) = 0;
 
     virtual int run() = 0;
 

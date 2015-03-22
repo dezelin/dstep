@@ -29,7 +29,10 @@
 #include "pluginmanager.h"
 
 #include <dstepwmpimpl.h>
+#include <eventloop.h>
+#include <windowdecorator.h>
 #include <windowmanager.h>
+#include <windowtheme.h>
 
 #include <QCoreApplication>
 #include <QPointer>
@@ -66,7 +69,8 @@ public:
 
     int run()
     {
-        return 0;
+        Q_ASSERT(m_wm);
+        return m_wm->run();
     }
 
 private:
@@ -80,7 +84,25 @@ private:
             return -1;
         }
 
-        m_wm.reset(fac->createWindowManager());
+        QScopedPointer<EventLoop> eventLoop(fac->createEventLoop());
+        if (!eventLoop) {
+            qDebug() << "Can't create event loop instance.";
+            return -1;
+        }
+
+        QScopedPointer<WindowTheme> theme(fac->createWindowTheme());
+        if (!theme) {
+            qDebug() << "Can't create window theme instance.";
+            return -1;
+        }
+
+        QScopedPointer<WindowDecorator> decorator(fac->createWindowDecorator(theme.take()));
+        if (!decorator) {
+            qDebug() << "Can't create window decorator instance.";
+            return -1;
+        }
+
+        m_wm.reset(fac->createWindowManager(eventLoop.take(), decorator.take()));
         if (!m_wm) {
             qDebug() << "Can't create window manager.";
             return -1;

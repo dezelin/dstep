@@ -55,10 +55,10 @@ public slots:
 
     // ObjectFactory interface
 public:
-    EventLoop *createEventLoop(QObject *parent) const;
-    WindowDecorator *createWindowDecorator(QObject *parent) const;
-    WindowManager *createWindowManager(QObject *parent = 0) const;
-    WindowTheme *createWindowTheme(QObject *parent) const;
+    EventLoop *createEventLoop() const;
+    WindowDecorator *createWindowDecorator(WindowTheme *theme) const;
+    WindowManager *createWindowManager(EventLoop *eventLoop, WindowDecorator *decorator) const;
+    WindowTheme *createWindowTheme() const;
 };
 
 } // namespace wm

@@ -27,6 +27,8 @@
 #include "dstepwmxcbwindowmanager.h"
 
 #include <dstepwmpimpl.h>
+#include <eventloop.h>
+#include <windowdecorator.h>
 
 namespace dstep
 {
@@ -41,8 +43,31 @@ public:
     {
     }
 
+    EventLoop *eventLoop() const
+    {
+        return m_eventLoop.data();
+    }
+
+    void setEventLoop(EventLoop *eventLoop)
+    {
+        m_eventLoop.reset(eventLoop);
+    }
+
+    WindowDecorator *decorator() const
+    {
+        return m_decorator.data();
+    }
+
+    void setDecorator(WindowDecorator *decorator)
+    {
+        m_decorator.reset(decorator);
+    }
+
 private:
     DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowManager);
+
+    QScopedPointer<EventLoop> m_eventLoop;
+    QScopedPointer<WindowDecorator> m_decorator;
 };
 
 DstepWmXcbWindowManager::DstepWmXcbWindowManager(QObject *parent) :
@@ -57,9 +82,35 @@ DstepWmXcbWindowManager::~DstepWmXcbWindowManager()
     delete d;
 }
 
+EventLoop *DstepWmXcbWindowManager::eventLoop() const
+{
+    Q_D(const DstepWmXcbWindowManager);
+    return d->eventLoop();
+}
+
+void DstepWmXcbWindowManager::setEventLoop(EventLoop *eventLoop)
+{
+    Q_D(DstepWmXcbWindowManager);
+    d->setEventLoop(eventLoop);
+}
+
+WindowDecorator *DstepWmXcbWindowManager::decorator() const
+{
+    Q_D(const DstepWmXcbWindowManager);
+    return d->decorator();
+}
+
+void DstepWmXcbWindowManager::setWindowDecorator(WindowDecorator *decorator)
+{
+    Q_D(DstepWmXcbWindowManager);
+    d->setDecorator(decorator);
+}
+
 int DstepWmXcbWindowManager::run()
 {
-    return 0;
+    Q_D(DstepWmXcbWindowManager);
+    Q_ASSERT(d->eventLoop());
+    return d->eventLoop()->run();
 }
 
 } // namespace wm

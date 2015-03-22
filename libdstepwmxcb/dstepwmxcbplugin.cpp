@@ -37,9 +37,9 @@ DstepWmXcbPlugin::DstepWmXcbPlugin(QObject *parent) :
 {
 }
 
-ObjectFactory *DstepWmXcbPlugin::createObjectFactory(QObject *parent) const
+ObjectFactory *DstepWmXcbPlugin::createObjectFactory() const
 {
-    return new DstepWmXcbObjectFactory(parent);
+    return new DstepWmXcbObjectFactory;
 }
 
 } // namespace wm

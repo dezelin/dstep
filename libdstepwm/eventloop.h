@@ -43,6 +43,8 @@ public:
     {
     }
 
+    virtual int run() = 0;
+
 };
 
 } // namespace interfaces

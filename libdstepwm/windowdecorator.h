@@ -27,6 +27,8 @@
 #ifndef WINDOWDECORATOR_H
 #define WINDOWDECORATOR_H
 
+#include <windowtheme.h>
+
 #include <QtPlugin>
 
 namespace dstep
@@ -42,6 +44,9 @@ public:
     virtual ~WindowDecorator()
     {
     }
+
+    virtual WindowTheme *theme() const = 0;
+    virtual void setTheme(WindowTheme *theme) = 0;
 
 };
 

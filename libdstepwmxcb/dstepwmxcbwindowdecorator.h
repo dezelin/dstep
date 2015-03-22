@@ -27,6 +27,7 @@
 #ifndef DSTEPWMXCBWINDOWDECORATOR_H
 #define DSTEPWMXCBWINDOWDECORATOR_H
 
+#include <dstepwmpimpl.h>
 #include <windowdecorator.h>
 
 #include <QObject>
@@ -49,6 +50,13 @@ signals:
 
 public slots:
 
+    // WindowDecorator interface
+public:
+    WindowTheme *theme() const;
+    void setTheme(WindowTheme *theme);
+
+private:
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowDecorator);
 };
 
 } // namespace wm

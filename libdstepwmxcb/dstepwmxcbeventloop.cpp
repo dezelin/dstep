@@ -33,9 +33,34 @@ namespace dstep
 namespace wm
 {
 
-DstepWmXcbEventLoop::DstepWmXcbEventLoop(QObject *parent) :
-    QObject(parent)
+using namespace dstep::wm::interfaces;
+
+class DstepWmXcbEventLoop::DstepWmXcbEventLoopPrivate
 {
+public:
+    DstepWmXcbEventLoopPrivate(DstepWmXcbEventLoop *parent) :
+        q_ptr(parent)
+    {
+    }
+
+    int run()
+    {
+
+    }
+
+private:
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbEventLoop);
+};
+
+DstepWmXcbEventLoop::DstepWmXcbEventLoop(QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbEventLoopPrivate(this))
+{
+}
+
+int DstepWmXcbEventLoop::run()
+{
+    Q_D(DstepWmXcbEventLoop);
+    return d->run();
 }
 
 } // namespace wm

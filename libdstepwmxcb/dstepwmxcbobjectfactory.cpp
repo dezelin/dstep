@@ -30,6 +30,8 @@
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcbwindowtheme.h"
 
+#include <QScopedPointer>
+
 namespace dstep
 {
 namespace wm
@@ -40,24 +42,32 @@ DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
 {
 }
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop(QObject *parent) const
+EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
 {
-    return new DstepWmXcbEventLoop(parent);
+    return new DstepWmXcbEventLoop;
 }
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(QObject *parent) const
+WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
 {
-    return new DstepWmXcbWindowDecorator(parent);
+    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
+        new DstepWmXcbWindowDecorator);
+    decorator->setTheme(theme);
+    return decorator.take();
 }
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(QObject *parent) const
+WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
+    WindowDecorator *decorator) const
 {
-    return new DstepWmXcbWindowManager(parent);
+    QScopedPointer<DstepWmXcbWindowManager> windowManager(
+        new DstepWmXcbWindowManager);
+    windowManager->setEventLoop(eventLoop);
+    windowManager->setWindowDecorator(decorator);
+    return windowManager.take();
 }
 
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme(QObject *parent) const
+WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
 {
-    return new DstepWmXcbWindowTheme(parent);
+    return new DstepWmXcbWindowTheme;
 }
 
 } // namespace wm

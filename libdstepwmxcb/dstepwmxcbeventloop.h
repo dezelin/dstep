@@ -50,6 +50,12 @@ signals:
 
 public slots:
 
+    // EventLoop interface
+public:
+    int run();
+
+private:
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbEventLoop);
 };
 
 } // namespace wm

@@ -54,7 +54,7 @@ public slots:
 
     // DstepWmPlugin interface
 public:
-    ObjectFactory *createObjectFactory(QObject *parent = 0) const;
+    ObjectFactory *createObjectFactory() const;
 };
 
 } // namespace wm

@@ -49,10 +49,11 @@ public:
     {
     }
 
-    virtual EventLoop *createEventLoop(QObject *parent = 0) const = 0;
-    virtual WindowDecorator *createWindowDecorator(QObject *parent = 0) const = 0;
-    virtual WindowManager *createWindowManager(QObject *parent = 0) const = 0;
-    virtual WindowTheme *createWindowTheme(QObject *parent = 0) const = 0;
+    virtual EventLoop *createEventLoop() const = 0;
+    virtual WindowDecorator *createWindowDecorator(WindowTheme *theme) const = 0;
+    virtual WindowManager *createWindowManager(EventLoop *eventLoop,
+        WindowDecorator *decorator) const = 0;
+    virtual WindowTheme *createWindowTheme() const = 0;
 };
 
 } // namespace interfaces

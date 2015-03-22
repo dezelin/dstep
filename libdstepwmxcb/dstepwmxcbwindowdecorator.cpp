@@ -26,6 +26,9 @@
 
 #include "dstepwmxcbwindowdecorator.h"
 
+#include <dstepwmpimpl.h>
+#include <windowtheme.h>
+
 #include <QObject>
 
 namespace dstep
@@ -33,9 +36,47 @@ namespace dstep
 namespace wm
 {
 
-DstepWmXcbWindowDecorator::DstepWmXcbWindowDecorator(QObject *parent) :
-    QObject(parent)
+using namespace dstep::wm::interfaces;
+
+class DstepWmXcbWindowDecorator::DstepWmXcbWindowDecoratorPrivate
 {
+public:
+    DstepWmXcbWindowDecoratorPrivate(DstepWmXcbWindowDecorator *parent) :
+        q_ptr(parent)
+    {
+    }
+
+    WindowTheme *theme() const
+    {
+        return m_theme.data();
+    }
+
+    void setTheme(WindowTheme *theme)
+    {
+        m_theme.reset(theme);
+    }
+
+private:
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowDecorator);
+    QScopedPointer<WindowTheme> m_theme;
+};
+
+DstepWmXcbWindowDecorator::DstepWmXcbWindowDecorator(QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbWindowDecoratorPrivate(this))
+{
+}
+
+WindowTheme *DstepWmXcbWindowDecorator::theme() const
+{
+    Q_D(const DstepWmXcbWindowDecorator);
+    return d->theme();
+}
+
+void DstepWmXcbWindowDecorator::setTheme(WindowTheme *theme)
+{
+    Q_ASSERT(theme);
+    Q_D(DstepWmXcbWindowDecorator);
+    d->setTheme(theme);
 }
 
 } // namespace wm
