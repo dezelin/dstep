@@ -57,7 +57,7 @@ public:
         m_plugin.reset(plugin);
     }
 
-    QObject *plugin() const
+    const QObject *plugin() const
     {
         return m_plugin.data();
     }
@@ -72,6 +72,12 @@ PluginManager::PluginManager(QObject *parent) :
     QObject(parent),
     d_ptr(new PluginManagerPrivate(this))
 {
+}
+
+PluginManager::~PluginManager()
+{
+    Q_D(PluginManager);
+    delete d;
 }
 
 int PluginManager::loadPlugins()
@@ -109,7 +115,11 @@ int PluginManager::loadPlugins()
 
 ObjectFactory *PluginManager::createObjectFactory() const
 {
-    return 0;
+    Q_D(const PluginManager);
+    Q_ASSERT(d->plugin());
+    const DstepWmPlugin *dstepPlugin = qobject_cast<DstepWmPlugin*>(d->plugin());
+    Q_ASSERT(dstepPlugin);
+    return dstepPlugin->createObjectFactory();
 }
 
 } // namespace wm

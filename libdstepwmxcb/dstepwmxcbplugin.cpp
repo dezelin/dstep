@@ -25,6 +25,7 @@
 //
 
 #include "dstepwmxcbplugin.h"
+#include "dstepwmxcbobjectfactory.h"
 
 namespace dstep
 {
@@ -38,7 +39,7 @@ DstepWmXcbPlugin::DstepWmXcbPlugin(QObject *parent) :
 
 ObjectFactory *DstepWmXcbPlugin::createObjectFactory(QObject *parent) const
 {
-    return 0;
+    return new DstepWmXcbObjectFactory(parent);
 }
 
 } // namespace wm

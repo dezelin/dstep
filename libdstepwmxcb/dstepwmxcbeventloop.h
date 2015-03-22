@@ -24,37 +24,35 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcb.h"
+#ifndef DSTEPWMXCBEVENTLOOP_H
+#define DSTEPWMXCBEVENTLOOP_H
 
 #include <dstepwmpimpl.h>
+#include <eventloop.h>
+
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-class DstepWmXcb::DstepWmXcbPrivate
+using namespace dstep::wm::interfaces;
+
+class DstepWmXcbEventLoop : public QObject, public EventLoop
 {
+    Q_OBJECT
+    Q_INTERFACES(dstep::wm::interfaces::EventLoop)
 public:
-    DstepWmXcbPrivate(DstepWmXcb *parent)
-        : q_ptr(parent)
-    {
-    }
+    explicit DstepWmXcbEventLoop(QObject *parent = 0);
 
-private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb);
+signals:
+
+public slots:
+
 };
-
-DstepWmXcb::DstepWmXcb(QObject *parent) :
-    QObject(parent),
-    d_ptr(new DstepWmXcbPrivate(this))
-{
-}
-
-int DstepWmXcb::run()
-{
-    return 0;
-}
 
 } // namespace wm
 } // namespace dstep
+
+#endif // DSTEPWMXCBEVENTLOOP_H

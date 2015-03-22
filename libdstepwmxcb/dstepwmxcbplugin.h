@@ -43,8 +43,8 @@ using namespace dstep::wm::interfaces;
 class DstepWmXcbPlugin : public QObject, public DstepWmPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID DstepWmPlugin_iid FILE "dstepwmxcb.json")
     Q_INTERFACES(dstep::wm::interfaces::DstepWmPlugin)
+    Q_PLUGIN_METADATA(IID DstepWmPlugin_iid FILE "dstepwmxcb.json")
 public:
     explicit DstepWmXcbPlugin(QObject *parent = 0);
 
@@ -52,11 +52,9 @@ signals:
 
 public slots:
 
-
-
     // DstepWmPlugin interface
 public:
-    ObjectFactory *createObjectFactory(QObject *parent) const;
+    ObjectFactory *createObjectFactory(QObject *parent = 0) const;
 };
 
 } // namespace wm

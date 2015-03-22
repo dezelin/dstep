@@ -29,6 +29,7 @@
 
 #include "objectfactory.h"
 
+#include <QObject>
 #include <QtPlugin>
 
 namespace dstep

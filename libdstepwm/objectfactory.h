@@ -27,8 +27,12 @@
 #ifndef OBJECTFACTORY_H
 #define OBJECTFACTORY_H
 
+#include "eventloop.h"
+#include "windowdecorator.h"
 #include "windowmanager.h"
+#include "windowtheme.h"
 
+#include <QObject>
 #include <QtPlugin>
 
 namespace dstep
@@ -45,8 +49,10 @@ public:
     {
     }
 
-    virtual WindowManager *createWindowManager() const = 0;
-
+    virtual EventLoop *createEventLoop(QObject *parent = 0) const = 0;
+    virtual WindowDecorator *createWindowDecorator(QObject *parent = 0) const = 0;
+    virtual WindowManager *createWindowManager(QObject *parent = 0) const = 0;
+    virtual WindowTheme *createWindowTheme(QObject *parent = 0) const = 0;
 };
 
 } // namespace interfaces

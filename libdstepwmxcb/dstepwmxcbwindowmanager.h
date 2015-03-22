@@ -24,41 +24,42 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+#ifndef DSTEPWMXCBWINDOWMANAGER_H
+#define DSTEPWMXCBWINDOWMANAGER_H
+
+#include <dstepwmpimpl.h>
+#include <windowmanager.h>
+
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
-    QObject(parent)
-{
-}
+using namespace dstep::wm::interfaces;
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop(QObject *parent) const
+class DstepWmXcbWindowManager : public QObject, public WindowManager
 {
-    return new DstepWmXcbEventLoop(parent);
-}
+    Q_OBJECT
+    Q_INTERFACES(dstep::wm::interfaces::WindowManager)
+public:
+    explicit DstepWmXcbWindowManager(QObject *parent = 0);
+    virtual ~DstepWmXcbWindowManager();
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(QObject *parent) const
-{
-    return new DstepWmXcbWindowDecorator(parent);
-}
+signals:
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(QObject *parent) const
-{
-    return new DstepWmXcbWindowManager(parent);
-}
+public slots:
 
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme(QObject *parent) const
-{
-    return new DstepWmXcbWindowTheme(parent);
-}
+    // WindowManager interface
+public:
+    int run();
+
+private:
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowManager);
+};
 
 } // namespace wm
 } // namespace dstep
+
+#endif // DSTEPWMXCBWINDOWMANAGER_H

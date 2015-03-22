@@ -58,6 +58,9 @@ public:
         if ((ret = loadPlugins()) < 0)
             return ret;
 
+        if ((ret = initWindowManager()) < 0)
+            return ret;
+
         return 0;
     }
 
@@ -67,15 +70,9 @@ public:
     }
 
 private:
-    int loadPlugins()
+    int initWindowManager()
     {
         Q_ASSERT(m_pm);
-
-        int ret;
-        if ((ret = m_pm->loadPlugins()) < 0) {
-            qDebug() << "Can't load plugins: " << ret;
-            return ret;
-        }
 
         QScopedPointer<ObjectFactory> fac(m_pm->createObjectFactory());
         if (!fac) {
@@ -87,6 +84,19 @@ private:
         if (!m_wm) {
             qDebug() << "Can't create window manager.";
             return -1;
+        }
+
+        return 0;
+    }
+
+    int loadPlugins()
+    {
+        Q_ASSERT(m_pm);
+
+        int ret;
+        if ((ret = m_pm->loadPlugins()) < 0) {
+            qDebug() << "Can't load plugins: " << ret;
+            return ret;
         }
 
         return 0;

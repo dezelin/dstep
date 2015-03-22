@@ -45,6 +45,7 @@ class PluginManager : public QObject
     Q_OBJECT
 public:
     explicit PluginManager(QObject *parent = 0);
+    virtual ~PluginManager();
 
     int loadPlugins();
 

@@ -27,7 +27,11 @@
 #ifndef DSTEPWMXCBOBJECTFACTORY_H
 #define DSTEPWMXCBOBJECTFACTORY_H
 
+#include <eventloop.h>
 #include <objectfactory.h>
+#include <windowdecorator.h>
+#include <windowmanager.h>
+#include <windowtheme.h>
 
 #include <QObject>
 
@@ -49,10 +53,12 @@ signals:
 
 public slots:
 
-
     // ObjectFactory interface
 public:
-    WindowManager *createWindowManager() const;
+    EventLoop *createEventLoop(QObject *parent) const;
+    WindowDecorator *createWindowDecorator(QObject *parent) const;
+    WindowManager *createWindowManager(QObject *parent = 0) const;
+    WindowTheme *createWindowTheme(QObject *parent) const;
 };
 
 } // namespace wm

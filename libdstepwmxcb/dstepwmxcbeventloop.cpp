@@ -25,39 +25,17 @@
 //
 
 #include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
+DstepWmXcbEventLoop::DstepWmXcbEventLoop(QObject *parent) :
     QObject(parent)
 {
-}
-
-EventLoop *DstepWmXcbObjectFactory::createEventLoop(QObject *parent) const
-{
-    return new DstepWmXcbEventLoop(parent);
-}
-
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(QObject *parent) const
-{
-    return new DstepWmXcbWindowDecorator(parent);
-}
-
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(QObject *parent) const
-{
-    return new DstepWmXcbWindowManager(parent);
-}
-
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme(QObject *parent) const
-{
-    return new DstepWmXcbWindowTheme(parent);
 }
 
 } // namespace wm

@@ -36,14 +36,20 @@ DEFINES += LIBDSTEPWMXCB_LIBRARY
 
 SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbobjectfactory.cpp \
-    dstepwmxcb.cpp \
-    dstepwmxcbplugin.cpp
+    dstepwmxcbplugin.cpp \
+    dstepwmxcbeventloop.cpp \
+    dstepwmxcbwindowdecorator.cpp \
+    dstepwmxcbwindowmanager.cpp \
+    dstepwmxcbwindowtheme.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
     dstepwmxcbobjectfactory.h \
-    dstepwmxcb.h \
-    dstepwmxcbplugin.h
+    dstepwmxcbplugin.h \
+    dstepwmxcbeventloop.h \
+    dstepwmxcbwindowdecorator.h \
+    dstepwmxcbwindowmanager.h \
+    dstepwmxcbwindowtheme.h
 
 OTHER_FILES += \
     dstepwmxcb.json

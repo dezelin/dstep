@@ -24,44 +24,43 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMXCB_H
-#define DSTEPWMXCB_H
+#include "dstepwmxcbwindowmanager.h"
 
 #include <dstepwmpimpl.h>
-#include <windowmanager.h>
-
-#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-using namespace dstep::wm::interfaces;
-
-class DstepWmXcb : public QObject, public WindowManager
+class DstepWmXcbWindowManager::DstepWmXcbWindowManagerPrivate
 {
-    Q_OBJECT
-    Q_INTERFACES(dstep::wm::interfaces::WindowManager)
 public:
-    explicit DstepWmXcb(QObject *parent = 0);
-
-    //
-    // WindowManager interface
-    //
-
-    virtual int run();
-
-
-signals:
-
-public slots:
+    DstepWmXcbWindowManagerPrivate(DstepWmXcbWindowManager *parent)
+        : q_ptr(parent)
+    {
+    }
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowManager);
 };
+
+DstepWmXcbWindowManager::DstepWmXcbWindowManager(QObject *parent) :
+    QObject(parent),
+    d_ptr(new DstepWmXcbWindowManagerPrivate(this))
+{
+}
+
+DstepWmXcbWindowManager::~DstepWmXcbWindowManager()
+{
+    Q_D(DstepWmXcbWindowManager);
+    delete d;
+}
+
+int DstepWmXcbWindowManager::run()
+{
+    return 0;
+}
 
 } // namespace wm
 } // namespace dstep
-
-#endif // DSTEPWMXCB_H
