@@ -59,9 +59,8 @@ public:
 
     int openConnection()
     {
-        if ((m_conn = xcb_connect(0, 0)) == 0) {
+        if ((m_conn = xcb_connect(0, 0)) == 0)
             return xcb_connection_has_error(m_conn);
-        }
 
         return 0;
     }
