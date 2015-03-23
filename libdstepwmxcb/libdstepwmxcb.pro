@@ -42,7 +42,10 @@ SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbwindowtheme.cpp \
     dstepwmxcb.cpp \
     dstepwmxcbactionfactory.cpp \
-    dstepwmxcbeventfactory.cpp
+    dstepwmxcbeventfactory.cpp \
+    dstepwmxcbdisplay.cpp \
+    dstepwmxcbscreen.cpp \
+    dstepwmxcbworkspace.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
@@ -54,7 +57,10 @@ HEADERS += libdstepwmxcb.h\
     dstepwmxcbwindowtheme.h \
     dstepwmxcb.h \
     dstepwmxcbactionfactory.h \
-    dstepwmxcbeventfactory.h
+    dstepwmxcbeventfactory.h \
+    dstepwmxcbdisplay.h \
+    dstepwmxcbscreen.h \
+    dstepwmxcbworkspace.h
 
 OTHER_FILES += \
     dstepwmxcb.json

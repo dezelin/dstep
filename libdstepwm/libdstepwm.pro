@@ -48,7 +48,10 @@ HEADERS += libdstepwm.h\
     actionfactory.h \
     action.h \
     event.h \
-    eventfactory.h
+    eventfactory.h \
+    display.h \
+    screen.h \
+    workspace.h
 
 unix {
     target.path = /usr/lib
