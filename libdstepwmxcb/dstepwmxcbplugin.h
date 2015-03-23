@@ -54,6 +54,7 @@ public slots:
 
     // DstepWmPlugin interface
 public:
+    ActionFactory *createActionFactory() const;
     ObjectFactory *createObjectFactory() const;
 };
 

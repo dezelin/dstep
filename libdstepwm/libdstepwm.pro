@@ -44,7 +44,9 @@ HEADERS += libdstepwm.h\
     eventloop.h \
     objectfactory.h \
     dstepwmplugin.h \
-    dstepwmpimpl.h
+    dstepwmpimpl.h \
+    actionfactory.h \
+    action.h
 
 unix {
     target.path = /usr/lib

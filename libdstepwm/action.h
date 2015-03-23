@@ -24,11 +24,8 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMPLUGIN_H
-#define DSTEPWMPLUGIN_H
-
-#include "actionfactory.h"
-#include "objectfactory.h"
+#ifndef ACTION_H
+#define ACTION_H
 
 #include <QObject>
 #include <QtPlugin>
@@ -40,27 +37,19 @@ namespace wm
 namespace interfaces
 {
 
-class DstepWmPlugin
+class Action
 {
 public:
-    virtual ~DstepWmPlugin()
+    virtual ~Action()
     {
     }
-
-    virtual ActionFactory *createActionFactory() const = 0;
-    virtual ObjectFactory *createObjectFactory() const = 0;
-
-signals:
-
-public slots:
-
 };
 
 } // namespace interfaces
 } // namespace wm
 } // namespace dstep
 
-#define DstepWmPlugin_iid "org.dstep.wm.interfaces.DstepWmPlugin/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::DstepWmPlugin, DstepWmPlugin_iid)
+#define Action_iid "org.dstep.wm.interfaces.Action/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::Action, Action_iid)
 
-#endif // DSTEPWMPLUGIN_H
+#endif // ACTION_H
