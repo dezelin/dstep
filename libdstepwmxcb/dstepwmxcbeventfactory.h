@@ -24,14 +24,13 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMXCBPLUGIN_H
-#define DSTEPWMXCBPLUGIN_H
+#ifndef DSTEPWMXCBEVENTFACTORY_H
+#define DSTEPWMXCBEVENTFACTORY_H
 
-#include "dstepwmxcbobjectfactory.h"
-
-#include <dstepwmplugin.h>
+#include <eventfactory.h>
 
 #include <QObject>
+#include <QVariant>
 
 namespace dstep
 {
@@ -40,26 +39,23 @@ namespace wm
 
 using namespace dstep::wm::interfaces;
 
-class DstepWmXcbPlugin : public QObject, public DstepWmPlugin
+class DstepWmXcbEventFactory : public QObject, public EventFactory
 {
     Q_OBJECT
-    Q_INTERFACES(dstep::wm::interfaces::DstepWmPlugin)
-    Q_PLUGIN_METADATA(IID DstepWmPlugin_iid FILE "dstepwmxcb.json")
+    Q_INTERFACES(dstep::wm::interfaces::EventFactory)
 public:
-    explicit DstepWmXcbPlugin(QObject *parent = 0);
+    explicit DstepWmXcbEventFactory(QObject *parent = 0);
 
 signals:
 
 public slots:
 
-    // DstepWmPlugin interface
+    // EventFactory interface
 public:
-    ActionFactory *createActionFactory() const;
-    EventFactory *createEventFactory() const;
-    ObjectFactory *createObjectFactory() const;
+    virtual Event *createEvent(int type, const QVariant &eventParams) const;
 };
 
 } // namespace wm
 } // namespace dstep
 
-#endif // DSTEPWMXCBPLUGIN_H
+#endif // DSTEPWMXCBEVENTFACTORY_H

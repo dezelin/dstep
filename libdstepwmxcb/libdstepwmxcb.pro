@@ -41,7 +41,8 @@ SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbwindowmanager.cpp \
     dstepwmxcbwindowtheme.cpp \
     dstepwmxcb.cpp \
-    dstepwmxcbactionfactory.cpp
+    dstepwmxcbactionfactory.cpp \
+    dstepwmxcbeventfactory.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
@@ -52,7 +53,8 @@ HEADERS += libdstepwmxcb.h\
     dstepwmxcbwindowmanager.h \
     dstepwmxcbwindowtheme.h \
     dstepwmxcb.h \
-    dstepwmxcbactionfactory.h
+    dstepwmxcbactionfactory.h \
+    dstepwmxcbeventfactory.h
 
 OTHER_FILES += \
     dstepwmxcb.json

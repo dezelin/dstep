@@ -42,8 +42,7 @@ DstepWmXcbActionFactory::DstepWmXcbActionFactory(QObject *parent) :
 {
 }
 
-Action *dstep::wm::DstepWmXcbActionFactory::createAction(int type,
-    const QVariant &actionParams) const
+Action *DstepWmXcbActionFactory::createAction(int type, const QVariant &actionParams) const
 {
     return 0;
 }

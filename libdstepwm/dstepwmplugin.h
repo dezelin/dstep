@@ -28,6 +28,7 @@
 #define DSTEPWMPLUGIN_H
 
 #include "actionfactory.h"
+#include "eventfactory.h"
 #include "objectfactory.h"
 
 #include <QObject>
@@ -48,6 +49,7 @@ public:
     }
 
     virtual ActionFactory *createActionFactory() const = 0;
+    virtual EventFactory *createEventFactory() const = 0;
     virtual ObjectFactory *createObjectFactory() const = 0;
 
 signals:

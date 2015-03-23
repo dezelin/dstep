@@ -1,7 +1,4 @@
 //
-// Copyright (c) 2015 Aleksandar Dezelin
-// All rights reserved.
-//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -24,42 +21,37 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMXCBPLUGIN_H
-#define DSTEPWMXCBPLUGIN_H
+#ifndef EVENTFACTORY_H
+#define EVENTFACTORY_H
 
-#include "dstepwmxcbobjectfactory.h"
-
-#include <dstepwmplugin.h>
+#include "event.h"
 
 #include <QObject>
+#include <QtPlugin>
+#include <QVariant>
 
 namespace dstep
 {
 namespace wm
 {
-
-using namespace dstep::wm::interfaces;
-
-class DstepWmXcbPlugin : public QObject, public DstepWmPlugin
+namespace interfaces
 {
-    Q_OBJECT
-    Q_INTERFACES(dstep::wm::interfaces::DstepWmPlugin)
-    Q_PLUGIN_METADATA(IID DstepWmPlugin_iid FILE "dstepwmxcb.json")
+
+class EventFactory
+{
 public:
-    explicit DstepWmXcbPlugin(QObject *parent = 0);
+    virtual ~EventFactory()
+    {
+    }
 
-signals:
-
-public slots:
-
-    // DstepWmPlugin interface
-public:
-    ActionFactory *createActionFactory() const;
-    EventFactory *createEventFactory() const;
-    ObjectFactory *createObjectFactory() const;
+    virtual Event *createEvent(int type, const QVariant &eventParams) const = 0;
 };
 
+} // namespace interfaces
 } // namespace wm
 } // namespace dstep
 
-#endif // DSTEPWMXCBPLUGIN_H
+#define EventFactory_iid "org.dstep.wm.interfaces.EventFactory/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::EventFactory, EventFactory_iid)
+
+#endif // EVENTFACTORY_H

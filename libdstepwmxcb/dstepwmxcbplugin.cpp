@@ -26,6 +26,7 @@
 
 #include "dstepwmxcbplugin.h"
 #include "dstepwmxcbactionfactory.h"
+#include "dstepwmxcbeventfactory.h"
 #include "dstepwmxcbobjectfactory.h"
 
 namespace dstep
@@ -43,9 +44,14 @@ ObjectFactory *DstepWmXcbPlugin::createObjectFactory() const
     return new DstepWmXcbObjectFactory;
 }
 
-ActionFactory *dstep::wm::DstepWmXcbPlugin::createActionFactory() const
+ActionFactory *DstepWmXcbPlugin::createActionFactory() const
 {
     return new DstepWmXcbActionFactory;
+}
+
+EventFactory *DstepWmXcbPlugin::createEventFactory() const
+{
+    return new DstepWmXcbEventFactory;
 }
 
 } // namespace wm
