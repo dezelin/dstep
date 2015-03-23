@@ -24,52 +24,42 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+#ifndef DSTEPWMXCB_H
+#define DSTEPWMXCB_H
 
-#include <QDebug>
-#include <QScopedPointer>
+#include <dstepwmpimpl.h>
+#include <singleton.h>
+
+#include <QObject>
 
 namespace dstep
 {
 namespace wm
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
-    QObject(parent)
+class DstepWmXcb : public QObject
 {
-}
+    Q_OBJECT
+public:
+    explicit DstepWmXcb(QObject *parent = 0);
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
-{
-    return new DstepWmXcbEventLoop;
-}
+signals:
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
-{
-    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
-        new DstepWmXcbWindowDecorator);
-    decorator->setTheme(theme);
-    return decorator.take();
-}
+public slots:
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
-    WindowDecorator *decorator) const
-{
-    QScopedPointer<DstepWmXcbWindowManager> windowManager(
-        new DstepWmXcbWindowManager);
-    windowManager->setEventLoop(eventLoop);
-    windowManager->setWindowDecorator(decorator);
-    return windowManager.take();
-}
+public:
+    int init();
+    int initDisplay();
 
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
-{
-    return new DstepWmXcbWindowTheme;
-}
+
+private:
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb);
+};
 
 } // namespace wm
 } // namespace dstep
+
+#define DstepWmXcbInstance \
+    dstep::patterns::Singleton<dstep::wm::DstepWmXcb>::instance()
+
+#endif // DSTEPWMXCB_H

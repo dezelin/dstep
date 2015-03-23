@@ -24,51 +24,68 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+#include "dstepwmxcb.h"
 
-#include <QDebug>
-#include <QScopedPointer>
+#include <dstepwmpimpl.h>
+
+#include <xcb/xcb.h>
 
 namespace dstep
 {
 namespace wm
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
-    QObject(parent)
+class DstepWmXcb::DstepWmXcbPrivate
+{
+public:
+    DstepWmXcbPrivate(DstepWmXcb *parent) :
+        q_ptr(parent)
+    {
+    }
+
+    ~DstepWmXcbPrivate()
+    {
+
+    }
+
+    int init()
+    {
+        int ret;
+        if ((ret = openConnection()) < 0)
+            return ret;
+
+        return ret;
+    }
+
+    int openConnection()
+    {
+        if ((m_conn = xcb_connect(0, 0)) == 0) {
+            return xcb_connection_has_error(m_conn);
+        }
+
+        return 0;
+    }
+
+    void closeConnection()
+    {
+        xcb_disconnect(m_conn);
+    }
+
+private:
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb);
+
+    xcb_connection_t *m_conn;
+};
+
+DstepWmXcb::DstepWmXcb(QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbPrivate(this))
 {
 }
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
+int DstepWmXcb::init()
 {
-    return new DstepWmXcbEventLoop;
-}
-
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
-{
-    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
-        new DstepWmXcbWindowDecorator);
-    decorator->setTheme(theme);
-    return decorator.take();
-}
-
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
-    WindowDecorator *decorator) const
-{
-    QScopedPointer<DstepWmXcbWindowManager> windowManager(
-        new DstepWmXcbWindowManager);
-    windowManager->setEventLoop(eventLoop);
-    windowManager->setWindowDecorator(decorator);
-    return windowManager.take();
-}
-
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
-{
-    return new DstepWmXcbWindowTheme;
+    Q_D(DstepWmXcb);
+    return d->init();
 }
 
 } // namespace wm

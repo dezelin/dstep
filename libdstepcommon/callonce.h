@@ -24,52 +24,61 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+#ifndef CALLONCE_H
+#define CALLONCE_H
 
-#include <QDebug>
-#include <QScopedPointer>
+#include <QtCore/QtGlobal>
+#include <QtCore/QAtomicInt>
+#include <QtCore/QMutex>
+#include <QtCore/QWaitCondition>
+#include <QtCore/QThreadStorage>
+#include <QtCore/QThread>
 
 namespace dstep
 {
-namespace wm
+namespace patterns
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
-    QObject(parent)
+namespace callonce
 {
+
+enum ECallOnce { CO_Request, CO_InProgress, CO_Finished };
+Q_GLOBAL_STATIC(QThreadStorage<QAtomicInt *>, once_flag)
+
 }
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
+template <class Function>
+inline static void qCallOnce(Function func, QBasicAtomicInt &flag)
 {
-    return new DstepWmXcbEventLoop;
+    using namespace callonce;
+
+    int protectFlag = flag.fetchAndStoreAcquire(flag.load());
+
+    if (protectFlag == CO_Finished)
+        return;
+
+    if (protectFlag == CO_Request &&
+            flag.testAndSetRelaxed(protectFlag, CO_InProgress)) {
+        func();
+        flag.fetchAndStoreRelease(CO_Finished);
+    } else {
+        do {
+            QThread::yieldCurrentThread();
+        } while (!flag.testAndSetAcquire(CO_Finished, CO_Finished));
+    }
 }
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
+template <class Function>
+inline static void qCallOncePerThread(Function func)
 {
-    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
-        new DstepWmXcbWindowDecorator);
-    decorator->setTheme(theme);
-    return decorator.take();
+    using namespace callonce;
+    if (!once_flag()->hasLocalData()) {
+        once_flag()->setLocalData(new QAtomicInt(CO_Request));
+        qCallOnce(func, *once_flag()->localData());
+    }
 }
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
-    WindowDecorator *decorator) const
-{
-    QScopedPointer<DstepWmXcbWindowManager> windowManager(
-        new DstepWmXcbWindowManager);
-    windowManager->setEventLoop(eventLoop);
-    windowManager->setWindowDecorator(decorator);
-    return windowManager.take();
-}
-
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
-{
-    return new DstepWmXcbWindowTheme;
-}
-
-} // namespace wm
+} // namespace patterns
 } // namespace dstep
+
+#endif // CALLONCE_H

@@ -40,7 +40,8 @@ SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbeventloop.cpp \
     dstepwmxcbwindowdecorator.cpp \
     dstepwmxcbwindowmanager.cpp \
-    dstepwmxcbwindowtheme.cpp
+    dstepwmxcbwindowtheme.cpp \
+    dstepwmxcb.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
@@ -49,7 +50,8 @@ HEADERS += libdstepwmxcb.h\
     dstepwmxcbeventloop.h \
     dstepwmxcbwindowdecorator.h \
     dstepwmxcbwindowmanager.h \
-    dstepwmxcbwindowtheme.h
+    dstepwmxcbwindowtheme.h \
+    dstepwmxcb.h
 
 OTHER_FILES += \
     dstepwmxcb.json
@@ -65,3 +67,13 @@ else:unix: LIBS += -L$$OUT_PWD/../libdstepwm/ -ldstepwm
 
 INCLUDEPATH += $$PWD/../libdstepwm
 DEPENDPATH += $$PWD/../libdstepwm
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepcommon/release/ -ldstepcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libdstepcommon/debug/ -ldstepcommon
+else:unix: LIBS += -L$$OUT_PWD/../libdstepcommon/ -ldstepcommon
+
+INCLUDEPATH += $$PWD/../libdstepcommon
+DEPENDPATH += $$PWD/../libdstepcommon
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += xcb

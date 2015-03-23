@@ -32,3 +32,4 @@ SUBDIRS += \
     libdstepshell \
     dstepwm \
     dstepshell \
+    libdstepcommon

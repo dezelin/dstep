@@ -24,52 +24,55 @@
 // SUCH DAMAGE.
 //
 
-#include "dstepwmxcbeventloop.h"
-#include "dstepwmxcbobjectfactory.h"
-#include "dstepwmxcbwindowdecorator.h"
-#include "dstepwmxcbwindowmanager.h"
-#include "dstepwmxcbwindowtheme.h"
+#ifndef SINGLETON_H
+#define SINGLETON_H
 
-#include <QDebug>
-#include <QScopedPointer>
+#include "callonce.h"
+
+#include <QtCore/QtGlobal>
+#include <QtCore/QScopedPointer>
 
 namespace dstep
 {
-namespace wm
+namespace patterns
 {
 
-DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
-    QObject(parent)
+template <class T>
+class Singleton
 {
-}
+public:
+    static T& instance()
+    {
+        qCallOnce(init, m_onceFlag);
+        return *m_p;
+    }
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
-{
-    return new DstepWmXcbEventLoop;
-}
+    static void init()
+    {
+        m_p.reset(new T);
+    }
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
-{
-    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
-        new DstepWmXcbWindowDecorator);
-    decorator->setTheme(theme);
-    return decorator.take();
-}
+private:
+    Singleton()
+    {
+    };
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
-    WindowDecorator *decorator) const
-{
-    QScopedPointer<DstepWmXcbWindowManager> windowManager(
-        new DstepWmXcbWindowManager);
-    windowManager->setEventLoop(eventLoop);
-    windowManager->setWindowDecorator(decorator);
-    return windowManager.take();
-}
+    ~Singleton()
+    {
+    };
 
-WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
-{
-    return new DstepWmXcbWindowTheme;
-}
+    Q_DISABLE_COPY(Singleton)
 
-} // namespace wm
+    static QScopedPointer<T> m_p;
+    static QBasicAtomicInt m_onceFlag;
+};
+
+template<class T> QScopedPointer<T> Singleton<T>::m_p(0);
+
+template<class T> QBasicAtomicInt Singleton<T>::m_onceFlag
+    = Q_BASIC_ATOMIC_INITIALIZER(callonce::CO_Request);
+
+} // namespace patterns
 } // namespace dstep
+
+#endif // SINGLETON_H

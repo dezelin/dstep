@@ -25,6 +25,7 @@
 //
 
 #include "dstepwmxcbwindowmanager.h"
+#include "dstepwmxcb.h"
 
 #include <dstepwmpimpl.h>
 #include <eventloop.h>
@@ -41,6 +42,11 @@ public:
     DstepWmXcbWindowManagerPrivate(DstepWmXcbWindowManager *parent)
         : q_ptr(parent)
     {
+    }
+
+    int init()
+    {
+        return DstepWmXcbInstance.init();
     }
 
     EventLoop *eventLoop() const
@@ -109,6 +115,11 @@ void DstepWmXcbWindowManager::setWindowDecorator(WindowDecorator *decorator)
 int DstepWmXcbWindowManager::run()
 {
     Q_D(DstepWmXcbWindowManager);
+
+    int ret;
+    if ((ret = d->init()) < 0)
+        return ret;
+
     Q_ASSERT(d->eventLoop());
     return d->eventLoop()->run();
 }
