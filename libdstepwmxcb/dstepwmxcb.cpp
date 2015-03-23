@@ -26,7 +26,9 @@
 
 #include "dstepwmxcb.h"
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
+
+#include <QList>
 
 #include <xcb/xcb.h>
 
@@ -45,33 +47,50 @@ public:
 
     ~DstepWmXcbPrivate()
     {
-
-    }
-
-    int init()
-    {
-        int ret;
-        if ((ret = openConnection()) < 0)
-            return ret;
-
-        return ret;
+        closeConnection();
     }
 
     int openConnection()
     {
-        if ((m_conn = xcb_connect(0, 0)) == 0)
-            return xcb_connection_has_error(m_conn);
+        Q_Q(DstepWmXcb);
 
-        return 0;
+        int err = -1;
+        if ((m_conn = xcb_connect(0, 0)) == 0) {
+            q->error(err);
+            return -1;
+        }
+
+        if ((err = xcb_connection_has_error(m_conn)) != 0)
+            q->error(err);
+
+        return err;
     }
 
     void closeConnection()
     {
+        Q_ASSERT(m_conn);
         xcb_disconnect(m_conn);
     }
 
+    template<typename Func>
+    void foreachScreen(Func f) const
+    {
+        Q_ASSERT(m_conn);
+        xcb_screen_iterator_t iter = xcb_setup_roots_iterator(xcb_get_setup(m_conn));
+        for(; iter.rem; xcb_screen_next(&iter)) {
+            if (!f(const_cast<const xcb_screen_t*>(iter.data)))
+                break;
+        }
+    }
+
+    int screenCount() const
+    {
+        Q_ASSERT(m_conn);
+        return xcb_setup_roots_length(xcb_get_setup(m_conn));
+    }
+
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb)
+    DSTEP_DECLARE_PUBLIC(DstepWmXcb)
 
     xcb_connection_t *m_conn;
 };
@@ -81,10 +100,28 @@ DstepWmXcb::DstepWmXcb(QObject *parent) :
 {
 }
 
-int DstepWmXcb::init()
+int DstepWmXcb::openConnection()
 {
     Q_D(DstepWmXcb);
-    return d->init();
+    return d->openConnection();
+}
+
+void DstepWmXcb::closeConnection()
+{
+    Q_D(DstepWmXcb);
+    d->closeConnection();
+}
+
+void DstepWmXcb::foreachScreen(ForeachScreenFunctor f) const
+{
+    Q_D(const DstepWmXcb);
+    d->foreachScreen(f);
+}
+
+int DstepWmXcb::screenCount() const
+{
+    Q_D(const DstepWmXcb);
+    return d->screenCount();
 }
 
 } // namespace wm

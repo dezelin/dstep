@@ -27,9 +27,13 @@
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcb.h"
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <eventloop.h>
 #include <windowdecorator.h>
+
+#include <QDebug>
+
+#include <xcb/xcb.h>
 
 namespace dstep
 {
@@ -44,9 +48,40 @@ public:
     {
     }
 
+    ~DstepWmXcbWindowManagerPrivate()
+    {
+        DstepWmXcbInstance.closeConnection();
+    }
+
     int init()
     {
-        return DstepWmXcbInstance.init();
+        int ret;
+        if ((ret = initDisplay()) != 0)
+            return ret;
+    }
+
+    int initDisplay()
+    {
+        int ret;
+        if ((ret = DstepWmXcbInstance.openConnection()) != 0) {
+            qDebug() << "Can't open X connection to display, err:" << ret;
+            return -ret;
+        }
+
+        int i = 0;
+        qDebug() << "Screen count is" << DstepWmXcbInstance.screenCount();
+        DstepWmXcbInstance.foreachScreen([&i](const xcb_screen_t *screen) -> bool {
+            qDebug() << "Enumerating screen" << i++;
+
+            return true;
+        });
+
+        return ret;
+    }
+
+    int initScreen(int screen)
+    {
+
     }
 
     EventLoop *eventLoop() const
@@ -70,7 +105,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowManager)
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbWindowManager)
 
     QScopedPointer<EventLoop> m_eventLoop;
     QScopedPointer<WindowDecorator> m_decorator;

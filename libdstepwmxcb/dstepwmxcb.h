@@ -27,10 +27,13 @@
 #ifndef DSTEPWMXCB_H
 #define DSTEPWMXCB_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <singleton.h>
 
 #include <QObject>
+
+#include <functional>
+#include <xcb/xcb.h>
 
 namespace dstep
 {
@@ -44,17 +47,22 @@ public:
     explicit DstepWmXcb(QObject *parent = 0);
 
 signals:
+    void error(int errorCode);
 
 public slots:
 
 public:
-    int init();
-    int initDisplay();
+    int openConnection();
+    void closeConnection();
+    int screenCount() const;
 
+    typedef std::function<bool(const xcb_screen_t*)> ForeachScreenFunctor;
+    void foreachScreen(ForeachScreenFunctor f) const;
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb)
+    DSTEP_DECLARE_PRIVATE(DstepWmXcb)
 };
+
 
 } // namespace wm
 } // namespace dstep
