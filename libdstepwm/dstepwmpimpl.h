@@ -32,11 +32,11 @@
 #define DSTEPWM_DECLARE_PRIVATE(Class) \
     class Class##Private; \
     class Class##Private * const d_ptr; \
-    Q_DECLARE_PRIVATE(Class); \
-    Q_DISABLE_COPY(Class);
+    Q_DECLARE_PRIVATE(Class) \
+    Q_DISABLE_COPY(Class)
 
 #define DSTEPWM_DECLARE_PUBLIC(Class) \
     class Class * const q_ptr; \
-    Q_DECLARE_PUBLIC(Class);
+    Q_DECLARE_PUBLIC(Class)
 
 #endif // DSTEPWMPIMPL_H

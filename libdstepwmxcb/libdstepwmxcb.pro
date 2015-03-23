@@ -59,6 +59,7 @@ unix {
     target.path = $$[QT_INSTALL_PLUGINS]/dstepwm
     INSTALLS += target
 
+    QMAKE_CXXFLAGS += -std=c++11 -Wall -pedantic
     CONFIG(debug, debug|release) {
         QMAKE_CXXFLAGS += -ggdb
     }
