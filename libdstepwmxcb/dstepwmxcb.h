@@ -53,7 +53,7 @@ public:
 
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb);
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcb)
 };
 
 } // namespace wm

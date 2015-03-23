@@ -55,7 +55,7 @@ public:
     int run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbEventLoop);
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbEventLoop)
 };
 
 } // namespace wm

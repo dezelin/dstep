@@ -60,7 +60,7 @@ public:
     int run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowManager);
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowManager)
 };
 
 } // namespace wm

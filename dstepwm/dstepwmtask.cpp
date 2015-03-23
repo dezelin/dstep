@@ -125,7 +125,7 @@ private:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmTask);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmTask)
     QScopedPointer<PluginManager> m_pm;
     QScopedPointer<WindowManager> m_wm;
 };

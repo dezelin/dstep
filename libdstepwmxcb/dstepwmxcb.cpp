@@ -72,7 +72,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcb)
 
     xcb_connection_t *m_conn;
 };

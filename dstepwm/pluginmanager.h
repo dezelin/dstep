@@ -56,7 +56,7 @@ signals:
 public slots:
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(PluginManager);
+    DSTEPWM_DECLARE_PRIVATE(PluginManager)
 };
 
 } // namespace wm

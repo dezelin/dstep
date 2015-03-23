@@ -51,7 +51,7 @@ public slots:
     void run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmTask);
+    DSTEPWM_DECLARE_PRIVATE(DstepWmTask)
 };
 
 } // namespace wm

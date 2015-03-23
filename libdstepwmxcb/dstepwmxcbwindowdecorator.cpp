@@ -57,7 +57,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowDecorator);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowDecorator)
     QScopedPointer<WindowTheme> m_theme;
 };
 

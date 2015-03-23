@@ -56,7 +56,7 @@ public:
     void setTheme(WindowTheme *theme);
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowDecorator);
+    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowDecorator)
 };
 
 } // namespace wm

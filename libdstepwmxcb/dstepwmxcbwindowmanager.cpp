@@ -70,7 +70,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowManager);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowManager)
 
     QScopedPointer<EventLoop> m_eventLoop;
     QScopedPointer<WindowDecorator> m_decorator;

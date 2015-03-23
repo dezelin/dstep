@@ -49,7 +49,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbEventLoop);
+    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbEventLoop)
 };
 
 DstepWmXcbEventLoop::DstepWmXcbEventLoop(QObject *parent) :

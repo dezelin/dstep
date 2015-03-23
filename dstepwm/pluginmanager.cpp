@@ -63,7 +63,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(PluginManager);
+    DSTEPWM_DECLARE_PUBLIC(PluginManager)
     QScopedPointer<QObject> m_plugin;
 };
 
