@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     dstep::wm::DstepWmTask *task = new dstep::wm::DstepWmTask(&a);
     QObject::connect(task, &dstep::wm::DstepWmTask::finished, &a,
                      &QCoreApplication::exit);
-    QTimer::singleShot(0, task, &dstep::wm::DstepWmTask::run);
+    QTimer::singleShot(0, task, SLOT(run()));
 
     return a.exec();
 }
