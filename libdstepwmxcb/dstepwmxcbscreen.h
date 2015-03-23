@@ -27,7 +27,7 @@
 #ifndef DSTEPWMXCBSCREEN_H
 #define DSTEPWMXCBSCREEN_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <screen.h>
 #include <QObject>
 

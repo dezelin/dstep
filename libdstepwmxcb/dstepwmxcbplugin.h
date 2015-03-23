@@ -27,9 +27,8 @@
 #ifndef DSTEPWMXCBPLUGIN_H
 #define DSTEPWMXCBPLUGIN_H
 
+#include "dstepwmplugin.h"
 #include "dstepwmxcbobjectfactory.h"
-
-#include <dstepwmplugin.h>
 
 #include <QObject>
 

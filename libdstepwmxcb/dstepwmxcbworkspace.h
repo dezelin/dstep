@@ -28,7 +28,7 @@
 #define DSTEPWMXCBWORKSPACE_H
 
 #include <workspace.h>
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 
 #include <QObject>
 

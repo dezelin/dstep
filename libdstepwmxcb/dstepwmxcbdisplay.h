@@ -28,7 +28,7 @@
 #define DSTEPWMXCBDISPLAY_H
 
 #include <display.h>
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 
 #include <QObject>
 

@@ -26,7 +26,7 @@
 
 #include "pluginmanager.h"
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <dstepwmplugin.h>
 
 #include <QCoreApplication>
@@ -63,7 +63,8 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(PluginManager)
+    DSTEP_DECLARE_PUBLIC(PluginManager)
+
     QScopedPointer<QObject> m_plugin;
 };
 

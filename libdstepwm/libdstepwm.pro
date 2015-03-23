@@ -44,7 +44,6 @@ HEADERS += libdstepwm.h\
     eventloop.h \
     objectfactory.h \
     dstepwmplugin.h \
-    dstepwmpimpl.h \
     actionfactory.h \
     action.h \
     event.h \

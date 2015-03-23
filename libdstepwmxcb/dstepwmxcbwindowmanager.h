@@ -27,7 +27,7 @@
 #ifndef DSTEPWMXCBWINDOWMANAGER_H
 #define DSTEPWMXCBWINDOWMANAGER_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <windowmanager.h>
 
 #include <QObject>
@@ -60,7 +60,7 @@ public:
     int run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbWindowManager)
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbWindowManager)
 };
 
 } // namespace wm

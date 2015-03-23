@@ -24,19 +24,19 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMPIMPL_H
-#define DSTEPWMPIMPL_H
+#ifndef DSTEPPIMPL_H
+#define DSTEPPIMPL_H
 
 #include <qglobal.h>
 
-#define DSTEPWM_DECLARE_PRIVATE(Class) \
+#define DSTEP_DECLARE_PRIVATE(Class) \
     class Class##Private; \
     class Class##Private * const d_ptr; \
     Q_DECLARE_PRIVATE(Class) \
     Q_DISABLE_COPY(Class)
 
-#define DSTEPWM_DECLARE_PUBLIC(Class) \
+#define DSTEP_DECLARE_PUBLIC(Class) \
     class Class * const q_ptr; \
     Q_DECLARE_PUBLIC(Class)
 
-#endif // DSTEPWMPIMPL_H
+#endif // DSTEPPIMPL_H

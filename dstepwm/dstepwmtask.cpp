@@ -28,7 +28,7 @@
 #include "objectfactory.h"
 #include "pluginmanager.h"
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <eventloop.h>
 #include <windowdecorator.h>
 #include <windowmanager.h>
@@ -125,7 +125,8 @@ private:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmTask)
+    DSTEP_DECLARE_PUBLIC(DstepWmTask)
+
     QScopedPointer<PluginManager> m_pm;
     QScopedPointer<WindowManager> m_wm;
 };

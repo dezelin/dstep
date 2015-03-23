@@ -26,7 +26,7 @@
 
 #include "dstepwmxcbwindowdecorator.h"
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <windowtheme.h>
 
 #include <QObject>
@@ -57,7 +57,7 @@ public:
     }
 
 private:
-    DSTEPWM_DECLARE_PUBLIC(DstepWmXcbWindowDecorator)
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbWindowDecorator)
     QScopedPointer<WindowTheme> m_theme;
 };
 

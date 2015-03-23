@@ -27,7 +27,7 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <objectfactory.h>
 
 #include <QObject>
@@ -56,7 +56,7 @@ signals:
 public slots:
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(PluginManager)
+    DSTEP_DECLARE_PRIVATE(PluginManager)
 };
 
 } // namespace wm

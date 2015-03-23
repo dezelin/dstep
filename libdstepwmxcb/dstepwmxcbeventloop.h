@@ -27,7 +27,7 @@
 #ifndef DSTEPWMXCBEVENTLOOP_H
 #define DSTEPWMXCBEVENTLOOP_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 #include <eventloop.h>
 
 #include <QObject>
@@ -55,7 +55,7 @@ public:
     int run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmXcbEventLoop)
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbEventLoop)
 };
 
 } // namespace wm

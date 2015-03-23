@@ -27,7 +27,7 @@
 #ifndef DSTEPWMTASK_H
 #define DSTEPWMTASK_H
 
-#include <dstepwmpimpl.h>
+#include <dsteppimpl.h>
 
 #include <QCoreApplication>
 #include <QObject>
@@ -51,7 +51,7 @@ public slots:
     void run();
 
 private:
-    DSTEPWM_DECLARE_PRIVATE(DstepWmTask)
+    DSTEP_DECLARE_PRIVATE(DstepWmTask)
 };
 
 } // namespace wm
