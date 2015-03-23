@@ -27,9 +27,9 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    libdstepcommon \
     libdstepwm \
     libdstepwmxcb \
     libdstepshell \
     dstepwm \
-    dstepshell \
-    libdstepcommon
+    dstepshell
