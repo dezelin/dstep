@@ -42,6 +42,10 @@ FORMS    += mainwindow.ui
 unix {
     target.path = /usr/bin
     INSTALLS += target
+
+    CONFIG(debug, debug|release) {
+        QMAKE_CXXFLAGS += -ggdb
+    }
 }
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepshell/release/ -ldstepshell

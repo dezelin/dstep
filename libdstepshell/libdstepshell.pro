@@ -41,4 +41,8 @@ HEADERS += libdstepshell.h\
 unix {
     target.path = /usr/lib
     INSTALLS += target
+
+    CONFIG(debug, debug|release) {
+        QMAKE_CXXFLAGS += -ggdb
+    }
 }

@@ -30,7 +30,6 @@ QT       -= gui
 
 TARGET = dstepwmxcb
 TEMPLATE = lib
-CONFIG += plugin
 
 DEFINES += LIBDSTEPWMXCB_LIBRARY
 
@@ -59,6 +58,10 @@ OTHER_FILES += \
 unix {
     target.path = $$[QT_INSTALL_PLUGINS]/dstepwm
     INSTALLS += target
+
+    CONFIG(debug, debug|release) {
+        QMAKE_CXXFLAGS += -ggdb
+    }
 }
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libdstepwm/release/ -ldstepwm
