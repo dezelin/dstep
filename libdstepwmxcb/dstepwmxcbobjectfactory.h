@@ -57,7 +57,7 @@ public slots:
 public:
     EventLoop *createEventLoop() const;
     WindowDecorator *createWindowDecorator(WindowTheme *theme) const;
-    WindowManager *createWindowManager(EventLoop *eventLoop, WindowDecorator *decorator) const;
+    WindowManager *createWindowManager() const;
     WindowTheme *createWindowTheme() const;
 };
 

@@ -55,60 +55,11 @@ public:
 
     int init()
     {
-        int ret;
-        if ((ret = initDisplay()) != 0)
-            return ret;
-    }
-
-    int initDisplay()
-    {
-        int ret;
-        if ((ret = DstepWmXcbInstance.openConnection()) != 0) {
-            qDebug() << "Can't open X connection to display, err:" << ret;
-            return -ret;
-        }
-
-        int i = 0;
-        qDebug() << "Screen count is" << DstepWmXcbInstance.screenCount();
-        DstepWmXcbInstance.foreachScreen([&i](const xcb_screen_t *screen) -> bool {
-            qDebug() << "Enumerating screen" << i++;
-
-            return true;
-        });
-
-        return ret;
-    }
-
-    int initScreen(int screen)
-    {
-
-    }
-
-    EventLoop *eventLoop() const
-    {
-        return m_eventLoop.data();
-    }
-
-    void setEventLoop(EventLoop *eventLoop)
-    {
-        m_eventLoop.reset(eventLoop);
-    }
-
-    WindowDecorator *decorator() const
-    {
-        return m_decorator.data();
-    }
-
-    void setDecorator(WindowDecorator *decorator)
-    {
-        m_decorator.reset(decorator);
+        return -1;
     }
 
 private:
     DSTEP_DECLARE_PUBLIC(DstepWmXcbWindowManager)
-
-    QScopedPointer<EventLoop> m_eventLoop;
-    QScopedPointer<WindowDecorator> m_decorator;
 };
 
 DstepWmXcbWindowManager::DstepWmXcbWindowManager(QObject *parent) :
@@ -123,30 +74,6 @@ DstepWmXcbWindowManager::~DstepWmXcbWindowManager()
     delete d;
 }
 
-EventLoop *DstepWmXcbWindowManager::eventLoop() const
-{
-    Q_D(const DstepWmXcbWindowManager);
-    return d->eventLoop();
-}
-
-void DstepWmXcbWindowManager::setEventLoop(EventLoop *eventLoop)
-{
-    Q_D(DstepWmXcbWindowManager);
-    d->setEventLoop(eventLoop);
-}
-
-WindowDecorator *DstepWmXcbWindowManager::decorator() const
-{
-    Q_D(const DstepWmXcbWindowManager);
-    return d->decorator();
-}
-
-void DstepWmXcbWindowManager::setWindowDecorator(WindowDecorator *decorator)
-{
-    Q_D(DstepWmXcbWindowManager);
-    d->setDecorator(decorator);
-}
-
 int DstepWmXcbWindowManager::run()
 {
     Q_D(DstepWmXcbWindowManager);
@@ -155,8 +82,7 @@ int DstepWmXcbWindowManager::run()
     if ((ret = d->init()) < 0)
         return ret;
 
-    Q_ASSERT(d->eventLoop());
-    return d->eventLoop()->run();
+    return ret;
 }
 
 } // namespace wm

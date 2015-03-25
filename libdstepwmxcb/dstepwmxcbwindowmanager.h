@@ -53,10 +53,6 @@ public slots:
 
     // WindowManager interface
 public:
-    EventLoop *eventLoop() const;
-    void setEventLoop(EventLoop *eventLoop);
-    WindowDecorator *decorator() const;
-    void setWindowDecorator(WindowDecorator *decorator);
     int run();
 
 private:

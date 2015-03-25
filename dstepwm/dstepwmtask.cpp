@@ -29,10 +29,7 @@
 #include "pluginmanager.h"
 
 #include <dsteppimpl.h>
-#include <eventloop.h>
-#include <windowdecorator.h>
 #include <windowmanager.h>
-#include <windowtheme.h>
 
 #include <QCoreApplication>
 #include <QPointer>
@@ -81,30 +78,6 @@ private:
         QScopedPointer<ObjectFactory> fac(m_pm->createObjectFactory());
         if (!fac) {
             qDebug() << "Can't create object factory.";
-            return -1;
-        }
-
-        QScopedPointer<EventLoop> eventLoop(fac->createEventLoop());
-        if (!eventLoop) {
-            qDebug() << "Can't create event loop instance.";
-            return -1;
-        }
-
-        QScopedPointer<WindowTheme> theme(fac->createWindowTheme());
-        if (!theme) {
-            qDebug() << "Can't create window theme instance.";
-            return -1;
-        }
-
-        QScopedPointer<WindowDecorator> decorator(fac->createWindowDecorator(theme.take()));
-        if (!decorator) {
-            qDebug() << "Can't create window decorator instance.";
-            return -1;
-        }
-
-        m_wm.reset(fac->createWindowManager(eventLoop.take(), decorator.take()));
-        if (!m_wm) {
-            qDebug() << "Can't create window manager.";
             return -1;
         }
 

@@ -56,14 +56,9 @@ WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *the
     return decorator.take();
 }
 
-WindowManager *DstepWmXcbObjectFactory::createWindowManager(EventLoop *eventLoop,
-    WindowDecorator *decorator) const
+WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
 {
-    QScopedPointer<DstepWmXcbWindowManager> windowManager(
-        new DstepWmXcbWindowManager);
-    windowManager->setEventLoop(eventLoop);
-    windowManager->setWindowDecorator(decorator);
-    return windowManager.take();
+    return new DstepWmXcbWindowManager;
 }
 
 WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
