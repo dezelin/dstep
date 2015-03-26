@@ -29,9 +29,11 @@
 #include "dstepwmxcbeventloop.h"
 #include "dstepwmxcbobjectfactory.h"
 #include "dstepwmxcbscreen.h"
+#include "dstepwmxcbwindow.h"
 #include "dstepwmxcbwindowdecorator.h"
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcbwindowtheme.h"
+#include "dstepwmxcbworkspace.h"
 
 #include <QSharedPointer>
 
@@ -61,6 +63,12 @@ Screen *DstepWmXcbObjectFactory::createScreen(QSharedPointer<DstepWmXcb> xcb,
     return new DstepWmXcbScreen(xcb, screen);
 }
 
+Window *DstepWmXcbObjectFactory::createWindow(QSharedPointer<DstepWmXcb> xcb,
+    xcb_window_t windowId, QObject *parent) const
+{
+    return new DstepWmXcbWindow(xcb, windowId, parent);
+}
+
 WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator() const
 {
     return new DstepWmXcbWindowDecorator;
@@ -74,6 +82,11 @@ WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
 WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
 {
     return new DstepWmXcbWindowTheme;
+}
+
+Workspace *DstepWmXcbObjectFactory::createWorkspace() const
+{
+    return new DstepWmXcbWorkspace;
 }
 
 DstepWmXcb *DstepWmXcbObjectFactory::createXcbAdapter() const

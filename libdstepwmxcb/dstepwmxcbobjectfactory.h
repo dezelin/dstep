@@ -35,6 +35,7 @@
 #include <windowdecorator.h>
 #include <windowmanager.h>
 #include <windowtheme.h>
+#include <workspace.h>
 
 #include <QObject>
 #include <QSharedPointer>
@@ -70,8 +71,10 @@ public:
     Display *createDisplay() const;
     EventLoop *createEventLoop() const;
     Screen *createScreen(QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) const;
+    Window *createWindow(QSharedPointer<DstepWmXcb> xcb, xcb_window_t windowId, QObject *parent) const;
     WindowDecorator *createWindowDecorator() const;
     WindowTheme *createWindowTheme() const;
+    Workspace *createWorkspace() const;
 
     DstepWmXcb* createXcbAdapter() const;
 };

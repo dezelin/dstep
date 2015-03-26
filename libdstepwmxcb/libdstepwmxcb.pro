@@ -44,7 +44,8 @@ SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbdisplay.cpp \
     dstepwmxcbscreen.cpp \
     dstepwmxcbworkspace.cpp \
-    dstepwmxcbcolormap.cpp
+    dstepwmxcbcolormap.cpp \
+    dstepwmxcbwindow.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
@@ -60,7 +61,8 @@ HEADERS += libdstepwmxcb.h\
     dstepwmxcbdisplay.h \
     dstepwmxcbscreen.h \
     dstepwmxcbworkspace.h \
-    dstepwmxcbcolormap.h
+    dstepwmxcbcolormap.h \
+    dstepwmxcbwindow.h
 
 OTHER_FILES += \
     dstepwmxcb.json

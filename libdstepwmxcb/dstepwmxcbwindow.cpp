@@ -24,55 +24,50 @@
 // SUCH DAMAGE.
 //
 
-#ifndef SCREEN_H
-#define SCREEN_H
-
-#include "colormap.h"
-#include "window.h"
-#include "workspace.h"
-
-#include <QColormap>
-#include <QList>
-#include <QObject>
-#include <QRect>
-#include <QtPlugin>
+#include "dstepwmxcbwindow.h"
 
 namespace dstep
 {
 namespace wm
 {
-namespace interfaces
-{
 
-class Screen
+using namespace dstep::wm::interfaces;
+
+class DstepWmXcbWindow::DstepWmXcbWindowPrivate
 {
 public:
-    virtual ~Screen()
+    DstepWmXcbWindowPrivate(DstepWmXcbWindow *parent,
+        QSharedPointer<DstepWmXcb> xcb, xcb_window_t windowId) :
+        q_ptr(parent), m_xcb(xcb), m_windowId(windowId)
     {
+
     }
 
-    virtual int init() = 0;
+    int init()
+    {
+        return -1;
+    }
 
-    virtual Window *rootWindow() const = 0;
-    virtual void setRootWindow(Window *window) = 0;
+private:
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbWindow)
 
-    virtual const QList<Workspace*> &workspaces() const;
+    QSharedPointer<DstepWmXcb> m_xcb;
 
-    virtual Colormap *colormap() const = 0;
-    virtual void setColormap(Colormap *colormap) = 0;
-
-    virtual const QList<Colormap*> &depths() const = 0;
-
-    virtual const QRect &geometry() const = 0;
-    virtual const QRect &virtualGeometry() const = 0;
-    virtual const QRect &geometryInMillimeters() const = 0;
+    xcb_window_t m_windowId;
 };
 
-} // namespace interfaces
+DstepWmXcbWindow::DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
+    xcb_window_t windowId, QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbWindowPrivate(this, xcb, windowId))
+{
+}
+
+
+int DstepWmXcbWindow::init()
+{
+    Q_D(DstepWmXcbWindow);
+    return d->init();
+}
+
 } // namespace wm
 } // namespace dstep
-
-#define Screen_iid "org.dstep.wm.interfaces.Screen/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::Screen, Screen_iid)
-
-#endif // SCREEN_H

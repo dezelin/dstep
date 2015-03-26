@@ -57,9 +57,12 @@ signals:
 
 public slots:
 
+public:
 
     // Screen interface
 public:
+    int init();
+
     Window *rootWindow() const;
     void setRootWindow(Window *window);
 

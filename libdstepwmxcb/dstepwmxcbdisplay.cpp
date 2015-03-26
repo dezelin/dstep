@@ -80,6 +80,9 @@ public:
                 return true;
             }
 
+            if (dstepScreen->init() < 0)
+                return true;
+
             m_screens.append(dstepScreen.take());
             return true;
         });

@@ -24,7 +24,10 @@
 // SUCH DAMAGE.
 //
 
+#include "dstepwmxcbobjectfactory.h"
 #include "dstepwmxcbscreen.h"
+
+#include <QDebug>
 
 namespace dstep
 {
@@ -38,17 +41,35 @@ class DstepWmXcbScreen::DstepWmXcbScreenPrivate
 public:
     DstepWmXcbScreenPrivate(DstepWmXcbScreen *parent,
         QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) :
-        m_xcb(xcb), q_ptr(parent)
+        q_ptr(parent), m_xcb(xcb), m_xcbScreen(screen)
     {
         Q_ASSERT(m_xcb);
-        Q_ASSERT(screen);
-        prepare(screen);
+        Q_ASSERT(m_xcbScreen);
     }
 
     ~DstepWmXcbScreenPrivate()
     {
         qDeleteAll(m_workspaces);
         qDeleteAll(m_depths);
+    }
+
+    int init()
+    {
+        Q_ASSERT(m_xcb);
+        Q_ASSERT(m_xcbScreen);
+
+        int ret;
+        if ((ret = initScreen(m_xcbScreen)) < 0) {
+            qDebug() << "Error parsing xcb screen object, err:" << ret;
+            return ret;
+        }
+
+        if ((ret = initWorkspaces()) < 0) {
+            qDebug() << "Error initializing workspaces, err:" << ret;
+            return ret;
+        }
+
+        return ret;
     }
 
     Window *rootWindow() const
@@ -88,7 +109,7 @@ public:
 
     const QRect &virtualGeometry() const
     {
-        return m_virtGeom;
+        return m_virtualGeom;
     }
 
     const QRect &geometryInMillimeters() const
@@ -97,28 +118,101 @@ public:
     }
 
 private:
-    void prepare(const xcb_screen_t *screen)
+    int initScreen(const xcb_screen_t *screen)
+    {
+        Q_Q(DstepWmXcbScreen);
+
+        Q_ASSERT(m_xcb);
+        Q_ASSERT(screen);
+
+        int ret;
+        if ((ret = initScreenColormap(screen)) < 0) {
+            qDebug() << "Can't initialize screen colormap, err:" << ret;
+            return ret;
+        }
+
+        if ((ret = initScreenDepths(screen)) < 0) {
+            qDebug() << "Can't enumerate screen depths, err:" << ret;
+            return ret;
+        }
+
+        if ((ret = initScreenGeometry(screen)) < 0) {
+            qDebug() << "Can't initialize screen geometry, err:" << ret;
+            return ret;
+        }
+
+        // Instantiate window and set it's parent to this QObject
+        QScopedPointer<Window> rootWindow(
+            DstepWmXcbObjectFactoryInstance.createWindow(m_xcb, screen->root, q));
+        if (!rootWindow) {
+            qDebug() << "Can't instantiate window instance.";
+            return -1;
+        }
+
+        m_root.swap(rootWindow);
+        return 0;
+    }
+
+    int initScreenColormap(const xcb_screen_t *screen)
     {
         Q_ASSERT(screen);
+        return -1;
+    }
+
+    int initScreenDepths(const xcb_screen_t * screen)
+    {
+        Q_ASSERT(screen);
+        return -1;
+    }
+
+    int initScreenGeometry(const xcb_screen_t *screen)
+    {
+        Q_ASSERT(screen);
+        m_geom = m_virtualGeom = QRect(0, 0, screen->width_in_pixels,
+            screen->height_in_pixels);
+        m_geomMM = QRect(0, 0, screen->width_in_millimeters,
+            screen->height_in_millimeters);
+        return 0;
+    }
+
+    int initWorkspaces()
+    {
+        QScopedPointer<Workspace> workspace(
+            DstepWmXcbObjectFactoryInstance.createWorkspace());
+        if (!workspace) {
+            qDebug() << "Error instantiating workspace object.";
+            return -1;
+        }
+
+        m_workspaces.append(workspace.take());
+        return 0;
     }
 
 private:
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbScreen)
+
     QSharedPointer<DstepWmXcb> m_xcb;
     QScopedPointer<Window> m_root;
     QList<Workspace*> m_workspaces;
     QScopedPointer<Colormap> m_colormap;
     QList<Colormap*> m_depths;
     QRect m_geom;
-    QRect m_virtGeom;
+    QRect m_virtualGeom;
     QRect m_geomMM;
 
-    DSTEP_DECLARE_PUBLIC(DstepWmXcbScreen)
+    const xcb_screen_t *m_xcbScreen;
 };
 
 DstepWmXcbScreen::DstepWmXcbScreen(QSharedPointer<DstepWmXcb> xcb,
     const xcb_screen_t *screen, QObject *parent) :
     QObject(parent), d_ptr(new DstepWmXcbScreenPrivate(this, xcb, screen))
 {
+}
+
+int DstepWmXcbScreen::init()
+{
+    Q_D(DstepWmXcbScreen);
+    return d->init();
 }
 
 Window *DstepWmXcbScreen::rootWindow() const

@@ -43,6 +43,8 @@ public:
     {
     }
 
+    virtual int init() = 0;
+
 };
 
 } // namespace interfaces
