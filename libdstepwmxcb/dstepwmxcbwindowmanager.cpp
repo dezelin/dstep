@@ -27,11 +27,12 @@
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcb.h"
 
+#include <display.h>
 #include <dsteppimpl.h>
-#include <eventloop.h>
-#include <windowdecorator.h>
+#include <dstepwmxcbobjectfactory.h>
 
 #include <QDebug>
+#include <QScopedPointer>
 
 #include <xcb/xcb.h>
 
@@ -50,16 +51,40 @@ public:
 
     ~DstepWmXcbWindowManagerPrivate()
     {
-        DstepWmXcbInstance.closeConnection();
     }
 
     int init()
+    {
+        QScopedPointer<DstepWmXcbObjectFactory> fac(new DstepWmXcbObjectFactory);
+        if (!fac) {
+            qDebug() << "Can't instantiate object factory.";
+            return -1;
+        }
+
+        QScopedPointer<Display> display(fac->createDisplay());
+        if (!display) {
+            qDebug() << "Can't instantiate display object.";
+            return -1;
+        }
+
+        int ret;
+        if ((ret = display->init()) < 0) {
+            qDebug() << "Error initializing display, err:" << ret;
+            return ret;
+        }
+
+        m_display.swap(display);
+        return ret;
+    }
+
+    int run()
     {
         return -1;
     }
 
 private:
     DSTEP_DECLARE_PUBLIC(DstepWmXcbWindowManager)
+    QScopedPointer<Display> m_display;
 };
 
 DstepWmXcbWindowManager::DstepWmXcbWindowManager(QObject *parent) :
@@ -74,15 +99,16 @@ DstepWmXcbWindowManager::~DstepWmXcbWindowManager()
     delete d;
 }
 
+int DstepWmXcbWindowManager::init()
+{
+    Q_D(DstepWmXcbWindowManager);
+    return d->init();
+}
+
 int DstepWmXcbWindowManager::run()
 {
     Q_D(DstepWmXcbWindowManager);
-
-    int ret;
-    if ((ret = d->init()) < 0)
-        return ret;
-
-    return ret;
+    return d->run();
 }
 
 } // namespace wm

@@ -29,6 +29,7 @@
 
 #include <dsteppimpl.h>
 #include <screen.h>
+
 #include <QObject>
 
 namespace dstep

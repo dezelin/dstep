@@ -81,6 +81,19 @@ private:
             return -1;
         }
 
+        QScopedPointer<WindowManager> wm(fac->createWindowManager());
+        if (!wm) {
+            qDebug() << "Can't create window manager.";
+            return -1;
+        }
+
+        int ret;
+        if ((ret = wm->init()) < 0) {
+            qDebug() << "Error initializing window manager, err:" << ret;
+            return ret;
+        }
+
+        m_wm.reset(wm.take());
         return 0;
     }
 

@@ -29,7 +29,9 @@
 
 #include <display.h>
 #include <dsteppimpl.h>
+#include <screen.h>
 
+#include <QList>
 #include <QObject>
 
 namespace dstep
@@ -44,12 +46,21 @@ class DstepWmXcbDisplay : public QObject, public Display
     Q_OBJECT
     Q_INTERFACES(dstep::wm::interfaces::Display)
 public:
+
     explicit DstepWmXcbDisplay(QObject *parent = 0);
 
 signals:
 
 public slots:
 
+
+    // Display interface
+public:
+    int init();
+    const ScreenList& screens() const;
+
+private:
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbDisplay)
 };
 
 } // namespace wm

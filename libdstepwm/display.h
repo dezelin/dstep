@@ -27,6 +27,9 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "screen.h"
+
+#include <QList>
 #include <QObject>
 #include <QtPlugin>
 
@@ -40,9 +43,14 @@ namespace interfaces
 class Display
 {
 public:
+    typedef QList<Screen*> ScreenList;
+
     virtual ~Display()
     {
     }
+
+    virtual int init() = 0;
+    virtual const ScreenList& screens() const = 0;
 };
 
 } // namespace interfaces

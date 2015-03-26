@@ -46,6 +46,7 @@ public:
     {
     }
 
+    virtual int init() = 0;
     virtual int run() = 0;
 
 };

@@ -27,8 +27,11 @@
 #ifndef DSTEPWMXCBOBJECTFACTORY_H
 #define DSTEPWMXCBOBJECTFACTORY_H
 
+#include <display.h>
 #include <eventloop.h>
 #include <objectfactory.h>
+#include <screen.h>
+#include <singleton.h>
 #include <windowdecorator.h>
 #include <windowmanager.h>
 #include <windowtheme.h>
@@ -55,7 +58,9 @@ public slots:
 
     // ObjectFactory interface
 public:
+    Display *createDisplay() const;
     EventLoop *createEventLoop() const;
+    Screen *createScreen() const;
     WindowDecorator *createWindowDecorator(WindowTheme *theme) const;
     WindowManager *createWindowManager() const;
     WindowTheme *createWindowTheme() const;
@@ -63,5 +68,8 @@ public:
 
 } // namespace wm
 } // namespace dstep
+
+#define DstepWmXcbObjectFactoryInstance \
+    dstep::patterns::Singleton<dstep::wm::DstepWmXcbObjectFactory>::instance()
 
 #endif // DSTEPWMXCBOBJECTFACTORY_H

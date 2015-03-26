@@ -53,6 +53,7 @@ public slots:
 
     // WindowManager interface
 public:
+    int init();
     int run();
 
 private:

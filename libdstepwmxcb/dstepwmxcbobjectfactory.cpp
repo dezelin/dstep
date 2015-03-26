@@ -24,8 +24,10 @@
 // SUCH DAMAGE.
 //
 
+#include "dstepwmxcbdisplay.h"
 #include "dstepwmxcbeventloop.h"
 #include "dstepwmxcbobjectfactory.h"
+#include "dstepwmxcbscreen.h"
 #include "dstepwmxcbwindowdecorator.h"
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcbwindowtheme.h"
@@ -43,9 +45,19 @@ DstepWmXcbObjectFactory::DstepWmXcbObjectFactory(QObject *parent) :
 {
 }
 
+Display *DstepWmXcbObjectFactory::createDisplay() const
+{
+    return new DstepWmXcbDisplay;
+}
+
 EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
 {
     return new DstepWmXcbEventLoop;
+}
+
+Screen *DstepWmXcbObjectFactory::createScreen() const
+{
+    return new DstepWmXcbScreen;
 }
 
 WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
