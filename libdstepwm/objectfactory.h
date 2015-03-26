@@ -27,11 +27,7 @@
 #ifndef OBJECTFACTORY_H
 #define OBJECTFACTORY_H
 
-#include "eventloop.h"
-#include "screen.h"
-#include "windowdecorator.h"
 #include "windowmanager.h"
-#include "windowtheme.h"
 
 #include <QObject>
 #include <QtPlugin>
@@ -50,11 +46,7 @@ public:
     {
     }
 
-    virtual EventLoop *createEventLoop() const = 0;
-    virtual Screen *createScreen() const = 0;
-    virtual WindowDecorator *createWindowDecorator(WindowTheme *theme) const = 0;
     virtual WindowManager *createWindowManager() const = 0;
-    virtual WindowTheme *createWindowTheme() const = 0;
 };
 
 } // namespace interfaces

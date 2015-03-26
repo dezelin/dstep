@@ -27,10 +27,17 @@
 #ifndef DSTEPWMXCBSCREEN_H
 #define DSTEPWMXCBSCREEN_H
 
+#include "dstepwmxcb.h"
+
+#include <colormap.h>
 #include <dsteppimpl.h>
 #include <screen.h>
 
 #include <QObject>
+#include <QPointer>
+#include <QSharedPointer>
+
+#include <xcb/xcb.h>
 
 namespace dstep
 {
@@ -44,12 +51,32 @@ class DstepWmXcbScreen : public QObject, public Screen
     Q_OBJECT
     Q_INTERFACES(dstep::wm::interfaces::Screen)
 public:
-    explicit DstepWmXcbScreen(QObject *parent = 0);
+    explicit DstepWmXcbScreen(QSharedPointer<DstepWmXcb> xcb,
+        const xcb_screen_t *screen, QObject *parent = 0);
 
 signals:
 
 public slots:
 
+
+    // Screen interface
+public:
+    QPointer<Window> rootWindow() const;
+    void setRootWindow(const QPointer<Window> &window);
+
+    const QList<const QPointer<Workspace>> &workspaces() const;
+
+    const QPointer<Colormap> &colormap() const;
+    void setColormap(const QPointer<Colormap> &colormap);
+
+    const QList<const QPointer<Colormap>> &depths() const;
+
+    const QRect &geometry() const;
+    const QRect &virtualGeometry() const;
+    const QRect &geometryInMillimeters() const;
+
+private:
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbScreen)
 };
 
 } // namespace wm

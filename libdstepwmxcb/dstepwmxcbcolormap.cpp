@@ -24,23 +24,7 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMXCBOBJECTFACTORY_H
-#define DSTEPWMXCBOBJECTFACTORY_H
-
-#include <display.h>
-#include <eventloop.h>
-#include <objectfactory.h>
-#include <screen.h>
-#include <singleton.h>
-#include <windowdecorator.h>
-#include <windowmanager.h>
-#include <windowtheme.h>
-
-#include <QObject>
-#include <QSharedPointer>
-#include <QVariant>
-
-#include <xcb/xcb.h>
+#include "dstepwmxcbcolormap.h"
 
 namespace dstep
 {
@@ -49,37 +33,10 @@ namespace wm
 
 using namespace dstep::wm::interfaces;
 
-class DstepWmXcb;
-
-class DstepWmXcbObjectFactory : public QObject, public ObjectFactory
+DstepWmXcbColormap::DstepWmXcbColormap(QObject *parent) :
+    QObject(parent)
 {
-    Q_OBJECT
-    Q_INTERFACES(dstep::wm::interfaces::ObjectFactory)
-public:
-    explicit DstepWmXcbObjectFactory(QObject *parent = 0);
-
-signals:
-
-public slots:
-
-    // ObjectFactory interface
-public:
-    WindowManager *createWindowManager() const;
-
-public:
-    Display *createDisplay() const;
-    EventLoop *createEventLoop() const;
-    Screen *createScreen(QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) const;
-    WindowDecorator *createWindowDecorator() const;
-    WindowTheme *createWindowTheme() const;
-
-    DstepWmXcb* createXcbAdapter() const;
-};
+}
 
 } // namespace wm
 } // namespace dstep
-
-#define DstepWmXcbObjectFactoryInstance \
-    dstep::patterns::Singleton<dstep::wm::DstepWmXcbObjectFactory>::instance()
-
-#endif // DSTEPWMXCBOBJECTFACTORY_H

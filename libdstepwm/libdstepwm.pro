@@ -24,9 +24,7 @@
 # SUCH DAMAGE.
 #
 
-QT       += testlib dbus
-
-QT       -= gui
+QT       += testlib dbus gui widgets
 
 TARGET = dstepwm
 TEMPLATE = lib
@@ -50,7 +48,8 @@ HEADERS += libdstepwm.h\
     eventfactory.h \
     display.h \
     screen.h \
-    workspace.h
+    workspace.h \
+    colormap.h
 
 unix {
     target.path = /usr/lib

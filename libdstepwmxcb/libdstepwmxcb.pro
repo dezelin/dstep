@@ -24,9 +24,7 @@
 # SUCH DAMAGE.
 #
 
-QT       += testlib dbus
-
-QT       -= gui
+QT       += testlib dbus gui widgets
 
 TARGET = dstepwmxcb
 TEMPLATE = lib
@@ -45,7 +43,8 @@ SOURCES += libdstepwmxcb.cpp \
     dstepwmxcbeventfactory.cpp \
     dstepwmxcbdisplay.cpp \
     dstepwmxcbscreen.cpp \
-    dstepwmxcbworkspace.cpp
+    dstepwmxcbworkspace.cpp \
+    dstepwmxcbcolormap.cpp
 
 HEADERS += libdstepwmxcb.h\
         libdstepwmxcb_global.h \
@@ -60,7 +59,8 @@ HEADERS += libdstepwmxcb.h\
     dstepwmxcbeventfactory.h \
     dstepwmxcbdisplay.h \
     dstepwmxcbscreen.h \
-    dstepwmxcbworkspace.h
+    dstepwmxcbworkspace.h \
+    dstepwmxcbcolormap.h
 
 OTHER_FILES += \
     dstepwmxcb.json

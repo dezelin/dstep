@@ -30,7 +30,7 @@
 
 #include <QDebug>
 #include <QObject>
-#include <QScopedPointer>
+#include <QSharedPointer>
 
 #include <xcb/xcb.h>
 
@@ -45,57 +45,52 @@ class DstepWmXcbDisplay::DstepWmXcbDisplayPrivate
 {
 public:
     DstepWmXcbDisplayPrivate(DstepWmXcbDisplay *parent) :
-        q_ptr(parent)
+        q_ptr(parent), m_xcb(DstepWmXcbObjectFactoryInstance.createXcbAdapter())
     {
-
     }
 
     ~DstepWmXcbDisplayPrivate()
     {
-        destroyScreens();
-        closeConnection();
+        closeXcbConnection();
+        qDeleteAll(m_screens);
     }
 
     int init()
     {
         int ret;
-        if ((ret = openConnection()) < 0)
+        if ((ret = initXcb()) < 0) {
+            qDebug() << "Can't create xcb adapter instance, err:" << ret;
+            return ret;
+        }
+
+        if ((ret = openXcbConnection()) < 0)
             return ret;
 
         int i = 0;
-        DstepWmXcbInstance.foreachScreen([this, &i](const xcb_screen_t *screen) {
+        m_xcb->foreachScreen([this, &i](const xcb_screen_t *screen) {
             Q_ASSERT(screen);
             if (!screen)
                 return true;
 
             qDebug() << "Enumerating screen" << i++;
-            QScopedPointer<Screen> scr(parseXcbScreen(screen));
-            if (!scr) {
+            QScopedPointer<Screen> dstepScreen(
+                DstepWmXcbObjectFactoryInstance.createScreen(m_xcb, screen));
+            if (!dstepScreen) {
                 qDebug() << "Can't create screen instance.";
                 return true;
             }
 
-            m_screens.append(scr.take());
+            m_screens.append(dstepScreen.take());
             return true;
         });
 
         return ret;
     }
 
-    void closeConnection()
+    int initXcb()
     {
-        DstepWmXcbInstance.closeConnection();
-    }
-
-    int openConnection()
-    {
-        int ret;
-        if ((ret = DstepWmXcbInstance.openConnection()) < 0) {
-            qDebug() << "Can't open connection to default display, err:" << ret;
-            return ret;
-        }
-
-        return ret;
+        Q_ASSERT(m_xcb);
+        return m_xcb->init();
     }
 
     const Display::ScreenList &screens() const
@@ -104,23 +99,28 @@ public:
     }
 
 private:
-    void destroyScreens()
+    void closeXcbConnection()
     {
-        foreach (Screen *screen, m_screens) {
-            Q_ASSERT(screen);
-            delete screen;
-        }
-
-        m_screens.clear();
+        Q_ASSERT(m_xcb);
+        m_xcb->closeConnection();
     }
 
-    Screen *parseXcbScreen(const xcb_screen_t *screen)
+    int openXcbConnection()
     {
-        return 0;
+        Q_ASSERT(m_xcb);
+
+        int ret;
+        if ((ret = m_xcb->openConnection()) < 0) {
+            qDebug() << "Can't open connection to default display, err:" << ret;
+            return ret;
+        }
+
+        return ret;
     }
 
 private:
     DSTEP_DECLARE_PUBLIC(DstepWmXcbDisplay)
+    QSharedPointer<DstepWmXcb> m_xcb;
     Display::ScreenList m_screens;
 };
 

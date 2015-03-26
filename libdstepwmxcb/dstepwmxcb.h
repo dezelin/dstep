@@ -52,6 +52,7 @@ signals:
 public slots:
 
 public:
+    int init();
     int openConnection();
     void closeConnection();
     int screenCount() const;
@@ -66,8 +67,5 @@ private:
 
 } // namespace wm
 } // namespace dstep
-
-#define DstepWmXcbInstance \
-    dstep::patterns::Singleton<dstep::wm::DstepWmXcb>::instance()
 
 #endif // DSTEPWMXCB_H

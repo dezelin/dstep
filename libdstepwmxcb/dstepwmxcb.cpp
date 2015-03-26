@@ -50,6 +50,11 @@ public:
         closeConnection();
     }
 
+    int init()
+    {
+        return 0;
+    }
+
     int openConnection()
     {
         Q_Q(DstepWmXcb);
@@ -98,6 +103,12 @@ private:
 DstepWmXcb::DstepWmXcb(QObject *parent) :
     QObject(parent), d_ptr(new DstepWmXcbPrivate(this))
 {
+}
+
+int DstepWmXcb::init()
+{
+    Q_D(DstepWmXcb);
+    return d->init();
 }
 
 int DstepWmXcb::openConnection()

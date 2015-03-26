@@ -24,6 +24,7 @@
 // SUCH DAMAGE.
 //
 
+#include "dstepwmxcb.h"
 #include "dstepwmxcbdisplay.h"
 #include "dstepwmxcbeventloop.h"
 #include "dstepwmxcbobjectfactory.h"
@@ -32,8 +33,7 @@
 #include "dstepwmxcbwindowmanager.h"
 #include "dstepwmxcbwindowtheme.h"
 
-#include <QDebug>
-#include <QScopedPointer>
+#include <QSharedPointer>
 
 namespace dstep
 {
@@ -55,17 +55,15 @@ EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
     return new DstepWmXcbEventLoop;
 }
 
-Screen *DstepWmXcbObjectFactory::createScreen() const
+Screen *DstepWmXcbObjectFactory::createScreen(QSharedPointer<DstepWmXcb> xcb,
+    const xcb_screen_t *screen) const
 {
-    return new DstepWmXcbScreen;
+    return new DstepWmXcbScreen(xcb, screen);
 }
 
-WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator(WindowTheme *theme) const
+WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator() const
 {
-    QScopedPointer<DstepWmXcbWindowDecorator> decorator(
-        new DstepWmXcbWindowDecorator);
-    decorator->setTheme(theme);
-    return decorator.take();
+    return new DstepWmXcbWindowDecorator;
 }
 
 WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
@@ -76,6 +74,11 @@ WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
 WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
 {
     return new DstepWmXcbWindowTheme;
+}
+
+DstepWmXcb *DstepWmXcbObjectFactory::createXcbAdapter() const
+{
+    return new DstepWmXcb;
 }
 
 } // namespace wm
