@@ -38,39 +38,45 @@ class DstepWmXcbScreen::DstepWmXcbScreenPrivate
 public:
     DstepWmXcbScreenPrivate(DstepWmXcbScreen *parent,
         QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) :
-        q_ptr(parent), m_xcb(xcb)
+        m_xcb(xcb), q_ptr(parent)
     {
         Q_ASSERT(m_xcb);
         Q_ASSERT(screen);
         prepare(screen);
     }
 
-    QPointer<Window> rootWindow() const
+    ~DstepWmXcbScreenPrivate()
+    {
+        qDeleteAll(m_workspaces);
+        qDeleteAll(m_depths);
+    }
+
+    Window *rootWindow() const
     {
         return m_root.data();
     }
 
-    void setRootWindow(const QPointer<Window> &window)
+    void setRootWindow(Window *window)
     {
         m_root.reset(window);
     }
 
-    const QList<const QPointer<Workspace>> &workspaces() const
+    const QList<Workspace*> &workspaces() const
     {
         return m_workspaces;
     }
 
-    const QPointer<Colormap> &colormap() const
+    Colormap *colormap() const
     {
-        return m_colormap;
+        return m_colormap.data();
     }
 
-    void setColormap(const QPointer<Colormap> &colormap)
+    void setColormap(Colormap *colormap)
     {
-        m_colormap = colormap;
+        m_colormap.reset(colormap);
     }
 
-    const QList<const QPointer<Colormap>> &depths() const
+    const QList<Colormap*> &depths() const
     {
         return m_depths;
     }
@@ -97,15 +103,16 @@ private:
     }
 
 private:
-    DSTEP_DECLARE_PUBLIC(DstepWmXcbScreen)
     QSharedPointer<DstepWmXcb> m_xcb;
     QScopedPointer<Window> m_root;
-    QList<QPointer<Workspace>> m_workspaces;
+    QList<Workspace*> m_workspaces;
     QScopedPointer<Colormap> m_colormap;
-    QList<QPointer<Colormap>> m_depths;
+    QList<Colormap*> m_depths;
     QRect m_geom;
     QRect m_virtGeom;
     QRect m_geomMM;
+
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbScreen)
 };
 
 DstepWmXcbScreen::DstepWmXcbScreen(QSharedPointer<DstepWmXcb> xcb,
@@ -114,37 +121,37 @@ DstepWmXcbScreen::DstepWmXcbScreen(QSharedPointer<DstepWmXcb> xcb,
 {
 }
 
-QPointer<Window> DstepWmXcbScreen::rootWindow() const
+Window *DstepWmXcbScreen::rootWindow() const
 {
     Q_D(const DstepWmXcbScreen);
     return d->rootWindow();
 }
 
-void DstepWmXcbScreen::setRootWindow(const QPointer<Window> &window)
+void DstepWmXcbScreen::setRootWindow(Window *window)
 {
     Q_D(DstepWmXcbScreen);
     d->setRootWindow(window);
 }
 
-const QList<const QPointer<Workspace>> &DstepWmXcbScreen::workspaces() const
+const QList<Workspace *> &DstepWmXcbScreen::workspaces() const
 {
     Q_D(const DstepWmXcbScreen);
     return d->workspaces();
 }
 
-const QPointer<Colormap> &DstepWmXcbScreen::colormap() const
+Colormap *DstepWmXcbScreen::colormap() const
 {
     Q_D(const DstepWmXcbScreen);
     return d->colormap();
 }
 
-void DstepWmXcbScreen::setColormap(const QPointer<Colormap> &colormap)
+void DstepWmXcbScreen::setColormap(Colormap *colormap)
 {
     Q_D(DstepWmXcbScreen);
     d->setColormap(colormap);
 }
 
-const QList<const QPointer<Colormap>> &DstepWmXcbScreen::depths() const
+const QList<Colormap *> &DstepWmXcbScreen::depths() const
 {
     Q_D(const DstepWmXcbScreen);
     return d->depths();

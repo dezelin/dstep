@@ -34,7 +34,6 @@
 #include <screen.h>
 
 #include <QObject>
-#include <QPointer>
 #include <QSharedPointer>
 
 #include <xcb/xcb.h>
@@ -61,15 +60,15 @@ public slots:
 
     // Screen interface
 public:
-    QPointer<Window> rootWindow() const;
-    void setRootWindow(const QPointer<Window> &window);
+    Window *rootWindow() const;
+    void setRootWindow(Window *window);
 
-    const QList<const QPointer<Workspace>> &workspaces() const;
+    const QList<Workspace*> &workspaces() const;
 
-    const QPointer<Colormap> &colormap() const;
-    void setColormap(const QPointer<Colormap> &colormap);
+    Colormap *colormap() const;
+    void setColormap(Colormap *colormap);
 
-    const QList<const QPointer<Colormap>> &depths() const;
+    const QList<Colormap*> &depths() const;
 
     const QRect &geometry() const;
     const QRect &virtualGeometry() const;

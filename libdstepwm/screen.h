@@ -34,7 +34,6 @@
 #include <QColormap>
 #include <QList>
 #include <QObject>
-#include <QPointer>
 #include <QRect>
 #include <QtPlugin>
 
@@ -52,15 +51,15 @@ public:
     {
     }
 
-    virtual QPointer<Window> rootWindow() const = 0;
-    virtual void setRootWindow(const QPointer<Window> &window) = 0;
+    virtual Window *rootWindow() const = 0;
+    virtual void setRootWindow(Window *window) = 0;
 
-    virtual const QList<const QPointer<Workspace>> &workspaces() const;
+    virtual const QList<Workspace*> &workspaces() const;
 
-    virtual const QPointer<Colormap> &colormap() const = 0;
-    virtual void setColormap(const QPointer<Colormap> &colormap) = 0;
+    virtual Colormap *colormap() const = 0;
+    virtual void setColormap(Colormap *colormap) = 0;
 
-    virtual const QList<const QPointer<Colormap>> &depths() const = 0;
+    virtual const QList<Colormap*> &depths() const = 0;
 
     virtual const QRect &geometry() const = 0;
     virtual const QRect &virtualGeometry() const = 0;

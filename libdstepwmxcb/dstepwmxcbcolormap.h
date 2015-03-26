@@ -55,6 +55,4 @@ public slots:
 } // namespace wm
 } // namespace dstep
 
-};
-
 #endif // DSTEPWMXCBCOLORMAP_H
