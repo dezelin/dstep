@@ -27,6 +27,7 @@
 #ifndef COLORMAP_H
 #define COLORMAP_H
 
+#include <QColor>
 #include <QObject>
 #include <QtPlugin>
 
@@ -40,9 +41,18 @@ namespace interfaces
 class Colormap
 {
 public:
+    typedef enum Mode { Direct, Indexed, Gray } Mode;
+
     virtual ~Colormap()
     {
     }
+
+    virtual const QColor &colorAt(uint pixel) const = 0;
+    virtual const QVector<QColor> &colormap() const = 0;
+    virtual int depth() const = 0;
+    virtual Mode mode() const = 0;
+    virtual uint pixel(const QColor &color) const = 0;
+    virtual int size() const = 0;
 };
 
 } // namespace interfaces

@@ -33,9 +33,87 @@ namespace wm
 
 using namespace dstep::wm::interfaces;
 
-DstepWmXcbColormap::DstepWmXcbColormap(QObject *parent) :
-    QObject(parent)
+class DstepWmXcbColormap::DstepWmXcbColormapPrivate
 {
+public:
+    DstepWmXcbColormapPrivate(DstepWmXcbColormap *parent) :
+        q_ptr(parent)
+    {
+
+    }
+
+    const QColor &colorAt(uint pixel) const
+    {
+    }
+
+    const QVector<QColor> &colormap() const
+    {
+
+    }
+
+    int depth() const
+    {
+
+    }
+
+    Colormap::Mode mode() const
+    {
+
+    }
+
+    uint pixel(const QColor &color) const
+    {
+
+    }
+
+    int size() const
+    {
+
+    }
+
+private:
+    DSTEP_DECLARE_PUBLIC(DstepWmXcbColormap)
+};
+
+DstepWmXcbColormap::DstepWmXcbColormap(QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbColormapPrivate(this))
+{
+}
+
+const QColor &DstepWmXcbColormap::colorAt(uint pixel) const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->colorAt(pixel);
+}
+
+const QVector<QColor> &DstepWmXcbColormap::colormap() const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->colormap();
+}
+
+int DstepWmXcbColormap::depth() const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->depth();
+}
+
+Colormap::Mode DstepWmXcbColormap::mode() const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->mode();
+}
+
+uint DstepWmXcbColormap::pixel(const QColor &color) const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->pixel(color);
+}
+
+int DstepWmXcbColormap::size() const
+{
+    Q_D(const DstepWmXcbColormap);
+    return d->size();
 }
 
 } // namespace wm

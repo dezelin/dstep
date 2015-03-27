@@ -25,6 +25,7 @@
 //
 
 #include "dstepwmxcb.h"
+#include "dstepwmxcbcolormap.h"
 #include "dstepwmxcbdisplay.h"
 #include "dstepwmxcbeventloop.h"
 #include "dstepwmxcbobjectfactory.h"
@@ -77,6 +78,11 @@ WindowDecorator *DstepWmXcbObjectFactory::createWindowDecorator() const
 WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
 {
     return new DstepWmXcbWindowManager;
+}
+
+Colormap *DstepWmXcbObjectFactory::createColormap() const
+{
+    return new DstepWmXcbColormap;
 }
 
 WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const

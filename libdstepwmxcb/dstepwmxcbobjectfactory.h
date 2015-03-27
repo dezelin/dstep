@@ -27,6 +27,7 @@
 #ifndef DSTEPWMXCBOBJECTFACTORY_H
 #define DSTEPWMXCBOBJECTFACTORY_H
 
+#include <colormap.h>
 #include <display.h>
 #include <eventloop.h>
 #include <objectfactory.h>
@@ -68,6 +69,7 @@ public:
     WindowManager *createWindowManager() const;
 
 public:
+    Colormap *createColormap() const;
     Display *createDisplay() const;
     EventLoop *createEventLoop() const;
     Screen *createScreen(QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) const;

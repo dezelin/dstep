@@ -29,6 +29,7 @@
 #define DSTEPWMXCBCOLORMAP_H
 
 #include <colormap.h>
+#include <dsteppimpl.h>
 
 #include <QObject>
 
@@ -50,6 +51,18 @@ signals:
 
 public slots:
 
+
+    // Colormap interface
+public:
+    const QColor &colorAt(uint pixel) const;
+    const QVector<QColor> &colormap() const;
+    int depth() const;
+    Mode mode() const;
+    uint pixel(const QColor &color) const;
+    int size() const;
+
+private:
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbColormap)
 };
 
 } // namespace wm
