@@ -47,7 +47,9 @@ public:
     {
     }
 
-    virtual const QColor &colorAt(uint pixel) const = 0;
+    virtual int init() = 0;
+
+    virtual QColor colorAt(uint pixel) const = 0;
     virtual const QVector<QColor> &colormap() const = 0;
     virtual int depth() const = 0;
     virtual Mode mode() const = 0;

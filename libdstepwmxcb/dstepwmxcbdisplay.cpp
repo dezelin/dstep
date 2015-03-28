@@ -63,8 +63,10 @@ public:
             return ret;
         }
 
-        if ((ret = openXcbConnection()) < 0)
+        if ((ret = openXcbConnection()) < 0) {
+            qDebug() << "Can't open connection to default display, err:" << ret;
             return ret;
+        }
 
         int i = 0;
         m_xcb->foreachScreen([this, &i](const xcb_screen_t *screen) {
@@ -90,18 +92,18 @@ public:
         return ret;
     }
 
-    int initXcb()
-    {
-        Q_ASSERT(m_xcb);
-        return m_xcb->init();
-    }
-
     const Display::ScreenList &screens() const
     {
         return m_screens;
     }
 
 private:
+    int initXcb()
+    {
+        Q_ASSERT(m_xcb);
+        return m_xcb->init();
+    }
+
     void closeXcbConnection()
     {
         Q_ASSERT(m_xcb);
@@ -111,14 +113,7 @@ private:
     int openXcbConnection()
     {
         Q_ASSERT(m_xcb);
-
-        int ret;
-        if ((ret = m_xcb->openConnection()) < 0) {
-            qDebug() << "Can't open connection to default display, err:" << ret;
-            return ret;
-        }
-
-        return ret;
+        return m_xcb->openConnection();
     }
 
 private:

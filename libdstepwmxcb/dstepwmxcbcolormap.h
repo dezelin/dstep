@@ -33,6 +33,8 @@
 
 #include <QObject>
 
+#include <xcb/xcb.h>
+
 namespace dstep
 {
 namespace wm
@@ -45,16 +47,18 @@ class DstepWmXcbColormap : public QObject, public Colormap
     Q_OBJECT
     Q_INTERFACES(dstep::wm::interfaces::Colormap)
 public:
-    explicit DstepWmXcbColormap(QObject *parent = 0);
+    explicit DstepWmXcbColormap(const xcb_visualtype_t *visual, QObject *parent = 0);
 
 signals:
 
 public slots:
 
+public:
+    int init();
 
     // Colormap interface
 public:
-    const QColor &colorAt(uint pixel) const;
+    QColor colorAt(uint pixel) const;
     const QVector<QColor> &colormap() const;
     int depth() const;
     Mode mode() const;

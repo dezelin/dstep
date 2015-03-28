@@ -156,13 +156,37 @@ private:
     int initScreenColormap(const xcb_screen_t *screen)
     {
         Q_ASSERT(screen);
-        return -1;
+        //TODO: Implement support for 256 color screens
+        return 0;
     }
 
     int initScreenDepths(const xcb_screen_t * screen)
     {
         Q_ASSERT(screen);
-        return -1;
+        m_xcb->foreachScreenDepth(screen, [this](const xcb_depth_t *depth) {
+            Q_ASSERT(depth);
+            if (!depth)
+                return true;
+
+            const xcb_visualtype_t *visual = xcb_depth_visuals(depth);
+            QScopedPointer<Colormap> colormap(DstepWmXcbObjectFactoryInstance.createColormap(visual));
+            if (!colormap) {
+                qDebug() << "Error instantiating colormap object.";
+                return true;
+            }
+
+            int ret;
+            if ((ret = colormap->init()) < 0) {
+                qDebug() << "Error initializing colormap for depth" << depth->depth
+                         << " , err:" << ret;
+                return true;
+            }
+
+            m_depths.append(colormap.take());
+            return true;
+        });
+
+        return 0;
     }
 
     int initScreenGeometry(const xcb_screen_t *screen)

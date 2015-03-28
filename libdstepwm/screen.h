@@ -56,7 +56,7 @@ public:
     virtual Window *rootWindow() const = 0;
     virtual void setRootWindow(Window *window) = 0;
 
-    virtual const QList<Workspace*> &workspaces() const;
+    virtual const QList<Workspace*> &workspaces() const = 0;
 
     virtual Colormap *colormap() const = 0;
     virtual void setColormap(Colormap *colormap) = 0;

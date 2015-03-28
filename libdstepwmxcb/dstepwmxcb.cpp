@@ -88,6 +88,21 @@ public:
         }
     }
 
+    template<typename Func>
+    void foreachScreenDepth(const xcb_screen_t *screen, Func f) const
+    {
+        Q_ASSERT(m_conn);
+        Q_ASSERT(screen);
+        if (!screen)
+            return;
+
+        xcb_depth_iterator_t iter = xcb_screen_allowed_depths_iterator(screen);
+        for(; iter.rem; xcb_depth_next(&iter)) {
+            if (!f(const_cast<const xcb_depth_t*>(iter.data)))
+                break;
+        }
+    }
+
     int screenCount() const
     {
         Q_ASSERT(m_conn);
@@ -127,6 +142,13 @@ void DstepWmXcb::foreachScreen(ForeachScreenFunctor f) const
 {
     Q_D(const DstepWmXcb);
     d->foreachScreen(f);
+}
+
+void DstepWmXcb::foreachScreenDepth(const xcb_screen_t *screen,
+    DstepWmXcb::ForeachScreenDepthFunctor f) const
+{
+    Q_D(const DstepWmXcb);
+    d->foreachScreenDepth(screen, f);
 }
 
 int DstepWmXcb::screenCount() const

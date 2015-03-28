@@ -69,7 +69,7 @@ public:
     WindowManager *createWindowManager() const;
 
 public:
-    Colormap *createColormap() const;
+    Colormap *createColormap(const xcb_visualtype_t *visual) const;
     Display *createDisplay() const;
     EventLoop *createEventLoop() const;
     Screen *createScreen(QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) const;

@@ -60,6 +60,9 @@ public:
     typedef std::function<bool(const xcb_screen_t*)> ForeachScreenFunctor;
     void foreachScreen(ForeachScreenFunctor f) const;
 
+    typedef std::function<bool(const xcb_depth_t*)> ForeachScreenDepthFunctor;
+    void foreachScreenDepth(const xcb_screen_t *screen, ForeachScreenDepthFunctor f) const;
+
 private:
     DSTEP_DECLARE_PRIVATE(DstepWmXcb)
 };

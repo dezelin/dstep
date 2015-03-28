@@ -80,9 +80,9 @@ WindowManager *DstepWmXcbObjectFactory::createWindowManager() const
     return new DstepWmXcbWindowManager;
 }
 
-Colormap *DstepWmXcbObjectFactory::createColormap() const
+Colormap *DstepWmXcbObjectFactory::createColormap(const xcb_visualtype_t *visual) const
 {
-    return new DstepWmXcbColormap;
+    return new DstepWmXcbColormap(visual);
 }
 
 WindowTheme *DstepWmXcbObjectFactory::createWindowTheme() const
