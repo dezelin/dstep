@@ -63,6 +63,8 @@ public:
     typedef std::function<bool(const xcb_depth_t*)> ForeachScreenDepthFunctor;
     void foreachScreenDepth(const xcb_screen_t *screen, ForeachScreenDepthFunctor f) const;
 
+    const xcb_visualtype_t *getVisualFromDepth(const xcb_depth_t *depth) const;
+
 private:
     DSTEP_DECLARE_PRIVATE(DstepWmXcb)
 };

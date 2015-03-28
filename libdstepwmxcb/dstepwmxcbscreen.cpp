@@ -168,8 +168,9 @@ private:
             if (!depth)
                 return true;
 
-            const xcb_visualtype_t *visual = xcb_depth_visuals(depth);
-            QScopedPointer<Colormap> colormap(DstepWmXcbObjectFactoryInstance.createColormap(visual, depth->depth));
+            QScopedPointer<Colormap> colormap(
+                DstepWmXcbObjectFactoryInstance.createColormap(
+                    m_xcb->getVisualFromDepth(depth), depth->depth));
             if (!colormap) {
                 qDebug() << "Error instantiating colormap object.";
                 return true;

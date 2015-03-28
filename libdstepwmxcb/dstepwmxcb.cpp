@@ -103,6 +103,15 @@ public:
         }
     }
 
+    const xcb_visualtype_t *getVisualFromDepth(const xcb_depth_t *depth) const
+    {
+        Q_ASSERT(depth);
+        if (!depth)
+            return 0;
+
+        return xcb_depth_visuals(depth);
+    }
+
     int screenCount() const
     {
         Q_ASSERT(m_conn);
@@ -149,6 +158,12 @@ void DstepWmXcb::foreachScreenDepth(const xcb_screen_t *screen,
 {
     Q_D(const DstepWmXcb);
     d->foreachScreenDepth(screen, f);
+}
+
+const xcb_visualtype_t *DstepWmXcb::getVisualFromDepth(const xcb_depth_t *depth) const
+{
+    Q_D(const DstepWmXcb);
+    return d->getVisualFromDepth(depth);
 }
 
 int DstepWmXcb::screenCount() const
