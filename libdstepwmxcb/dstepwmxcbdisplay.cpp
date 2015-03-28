@@ -129,7 +129,8 @@ DstepWmXcbDisplay::DstepWmXcbDisplay(QObject *parent) :
 
 int DstepWmXcbDisplay::init()
 {
-    return -1;
+    Q_D(DstepWmXcbDisplay);
+    return d->init();
 }
 
 const Display::ScreenList &DstepWmXcbDisplay::screens() const

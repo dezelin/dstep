@@ -44,8 +44,8 @@ class DstepWmXcbColormap::DstepWmXcbColormapPrivate
 {
 public:
     DstepWmXcbColormapPrivate(DstepWmXcbColormap *parent,
-        const xcb_visualtype_t *visual) :
-        q_ptr(parent), m_mode(Colormap::Direct), m_depth(0), m_size(-1),
+        const xcb_visualtype_t *visual, int depth) :
+        q_ptr(parent), m_bitsPerRgb(0), m_mode(Colormap::Direct), m_depth(depth), m_size(-1),
             m_redMask(0), m_greenMask(0), m_blueMask(0), m_visual(visual)
     {
         Q_ASSERT(parent);
@@ -180,7 +180,7 @@ private:
     int initVisual(const xcb_visualtype_t *visual)
     {
         Q_ASSERT(visual);
-        m_depth = visual->bits_per_rgb_value;
+        m_bitsPerRgb = visual->bits_per_rgb_value;
         // TODO: Fix to support grayscale screens
         m_mode = m_depth > 8 ? Colormap::Direct : Colormap::Indexed;
         m_size = visual->colormap_entries;
@@ -198,13 +198,15 @@ private:
     Colormap::Mode m_mode;
     int m_depth;
     int m_size;
+    int m_bitsPerRgb;
     uint m_redMask, m_greenMask, m_blueMask;
 
     const xcb_visualtype_t *m_visual;
 };
 
-DstepWmXcbColormap::DstepWmXcbColormap(const xcb_visualtype_t *visual, QObject *parent) :
-    QObject(parent), d_ptr(new DstepWmXcbColormapPrivate(this, visual))
+DstepWmXcbColormap::DstepWmXcbColormap(const xcb_visualtype_t *visual, int depth,
+    QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbColormapPrivate(this, visual, depth))
 {
 }
 
