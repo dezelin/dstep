@@ -65,6 +65,12 @@ Screen *DstepWmXcbObjectFactory::createScreen(QSharedPointer<DstepWmXcb> xcb,
 }
 
 Window *DstepWmXcbObjectFactory::createWindow(QSharedPointer<DstepWmXcb> xcb,
+    xcb_window_t windowId, Window *parent) const
+{
+    return new DstepWmXcbWindow(xcb, windowId, parent);
+}
+
+Window *DstepWmXcbObjectFactory::createWindow(QSharedPointer<DstepWmXcb> xcb,
     xcb_window_t windowId, QObject *parent) const
 {
     return new DstepWmXcbWindow(xcb, windowId, parent);

@@ -40,7 +40,8 @@ public:
         QSharedPointer<DstepWmXcb> xcb, xcb_window_t windowId) :
         q_ptr(parent), m_xcb(xcb), m_windowId(windowId)
     {
-
+        Q_ASSERT(parent);
+        Q_ASSERT(qobject_cast<QObject*>(parent));
     }
 
     int init()
@@ -59,6 +60,13 @@ private:
 DstepWmXcbWindow::DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
     xcb_window_t windowId, QObject *parent) :
     QObject(parent), d_ptr(new DstepWmXcbWindowPrivate(this, xcb, windowId))
+{
+}
+
+DstepWmXcbWindow::DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
+    xcb_window_t windowId, Window *parent) :
+    QObject(qobject_cast<QObject*>(parent)),
+    d_ptr(new DstepWmXcbWindowPrivate(this, xcb, windowId))
 {
 }
 

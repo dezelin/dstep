@@ -103,6 +103,24 @@ public:
         }
     }
 
+    template<typename Func>
+    void foreachScreenWindow(const xcb_screen_t *screen, Func f) const
+    {
+        Q_ASSERT(m_conn);
+        Q_ASSERT(screen);
+        if (!screen)
+            return;
+
+        xcb_query_tree_reply_t *reply;
+        xcb_query_tree_cookie_t cookie = xcb_query_tree(m_conn, screen->root);
+        if (reply = xcb_query_tree_reply(m_conn, cookie, 0)) {
+            xcb_window_t *children = xcb_query_tree_children(reply);
+            for (int i = 0; i < xcb_query_tree_children_length(reply); ++i)
+                if (!f(children[i]))
+                    break;
+        }
+    }
+
     const xcb_visualtype_t *getVisualFromDepth(const xcb_depth_t *depth) const
     {
         Q_ASSERT(depth);
@@ -158,6 +176,13 @@ void DstepWmXcb::foreachScreenDepth(const xcb_screen_t *screen,
 {
     Q_D(const DstepWmXcb);
     d->foreachScreenDepth(screen, f);
+}
+
+void DstepWmXcb::foreachScreenWindow(const xcb_screen_t *screen,
+    DstepWmXcb::ForeachScreenWindowFunctor f) const
+{
+    Q_D(const DstepWmXcb);
+    d->foreachScreenWindow(screen, f);
 }
 
 const xcb_visualtype_t *DstepWmXcb::getVisualFromDepth(const xcb_depth_t *depth) const

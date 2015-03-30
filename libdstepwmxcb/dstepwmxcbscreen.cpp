@@ -118,6 +118,43 @@ public:
     }
 
 private:
+    int initRootWindow(const xcb_screen_t *screen)
+    {
+        Q_Q(DstepWmXcbScreen);
+        Q_ASSERT(m_xcb);
+        Q_ASSERT(screen);
+
+        // Instantiate window and set it's parent to this QObject
+        QScopedPointer<Window> rootWindow(
+            DstepWmXcbObjectFactoryInstance.createWindow(m_xcb, screen->root, q));
+        if (!rootWindow) {
+            qDebug() << "Can't instantiate window instance.";
+            return -1;
+        }
+
+        m_xcb->foreachScreenWindow(screen, [this, &rootWindow](const xcb_window_t windowId) {
+            QScopedPointer<Window> window(DstepWmXcbObjectFactoryInstance.createWindow(
+                m_xcb, windowId, rootWindow.data()));
+            if (!window) {
+                qDebug() << "Can't instantiate window, id:" << windowId;
+                return false;
+            }
+
+
+            return true;
+        });
+
+        /*
+        if ((ret = reparentAllWindows(screen)) < 0) {
+            qDebug() << "Reparenting screen windows failed, err:" << ret;
+            return ret;
+        }
+        */
+
+        m_root.swap(rootWindow);
+        return ret;
+    }
+
     int initScreen(const xcb_screen_t *screen)
     {
         Q_Q(DstepWmXcbScreen);
@@ -141,15 +178,11 @@ private:
             return ret;
         }
 
-        // Instantiate window and set it's parent to this QObject
-        QScopedPointer<Window> rootWindow(
-            DstepWmXcbObjectFactoryInstance.createWindow(m_xcb, screen->root, q));
-        if (!rootWindow) {
-            qDebug() << "Can't instantiate window instance.";
-            return -1;
+        if ((ret = initRootWindow(screen)) < 0) {
+            qDebug() << "Error initializing root window and it's children, err:" << ret;
+            return ret;
         }
 
-        m_root.swap(rootWindow);
         return 0;
     }
 
@@ -211,6 +244,11 @@ private:
 
         m_workspaces.append(workspace.take());
         return 0;
+    }
+
+    int reparentAllWindows()
+    {
+        return -1;
     }
 
 private:

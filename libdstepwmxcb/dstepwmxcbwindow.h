@@ -50,6 +50,8 @@ class DstepWmXcbWindow : public QObject, public Window
 public:
     explicit DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
         xcb_window_t windowId, QObject *parent = 0);
+    explicit DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
+        xcb_window_t windowId, Window *parent);
 
 signals:
 
