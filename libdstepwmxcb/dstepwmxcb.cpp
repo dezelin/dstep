@@ -132,6 +132,29 @@ public:
         return xcb_depth_visuals(depth);
     }
 
+    int reparentWindow(xcb_window_t handle, xcb_window_t parent) const
+    {
+        // Get window coordinates relative to the root window.
+        // We don't have to translate them as we are working only with top level windows.
+        int errCode = 0;
+        xcb_generic_error_t *err = 0;
+        xcb_get_geometry_cookie_t geomCookie = xcb_get_geometry(m_conn, handle);
+        xcb_get_geometry_reply_t *geomReply = xcb_get_geometry_reply(m_conn, geomCookie, &err);
+        Q_ASSERT(!err);
+        Q_ASSERT(geomReply->root == parent);
+        if (!err) {
+            Q_ASSERT(geomReply);
+            xcb_void_cookie_t reparentCookie = xcb_reparent_window_checked(m_conn,
+                handle, parent, geomReply->x, geomReply->y);
+            if ((err = xcb_request_check(m_conn, reparentCookie)) != 0)
+                errCode = err->error_code;
+        } else
+            errCode = err->error_code;
+
+        free(err);
+        return errCode;
+    }
+
     int screenCount() const
     {
         Q_ASSERT(m_conn);
@@ -191,6 +214,12 @@ const xcb_visualtype_t *DstepWmXcb::getVisualFromDepth(const xcb_depth_t *depth)
 {
     Q_D(const DstepWmXcb);
     return d->getVisualFromDepth(depth);
+}
+
+int DstepWmXcb::reparentWindow(xcb_window_t windowId, xcb_window_t parentId) const
+{
+    Q_D(const DstepWmXcb);
+    return d->reparentWindow(windowId, parentId);
 }
 
 int DstepWmXcb::screenCount() const

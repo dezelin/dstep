@@ -27,6 +27,8 @@
 #include "dstepwmxcbobjectfactory.h"
 #include "dstepwmxcbscreen.h"
 
+#include <dstepdebug.h>
+
 #include <QDebug>
 
 namespace dstep
@@ -34,6 +36,7 @@ namespace dstep
 namespace wm
 {
 
+using namespace dstep::misc;
 using namespace dstep::wm::interfaces;
 
 class DstepWmXcbScreen::DstepWmXcbScreenPrivate
@@ -132,12 +135,21 @@ private:
             return -1;
         }
 
+        qDebug().noquote() << "Root window handle:" << dstep::misc::hex(screen->root);
+
         int err = 0;
-        m_xcb->foreachScreenWindow(screen, [&, this](const xcb_window_t windowId) {
+        if ((err = rootWindow->init()) < 0) {
+            qDebug() << "Error initializing root window, err:" << err;
+            return err;
+        }
+
+        m_xcb->foreachScreenWindow(screen, [&, this](const xcb_window_t handle) {
             QScopedPointer<Window> window(DstepWmXcbObjectFactoryInstance.createWindow(
-                m_xcb, windowId, rootWindow.data()->objPtr()));
+                m_xcb, handle, rootWindow.data()->objPtr()));
+            qDebug().noquote() << "Reparenting window, handle:" << dstep::misc::hex(handle)
+                << ", parent:" << hex(screen->root);
             if (!window) {
-                qDebug() << "Can't instantiate window, id:" << windowId;
+                qDebug() << "Can't instantiate window.";
                 return false;
             }
 

@@ -24,49 +24,43 @@
 // SUCH DAMAGE.
 //
 
-#ifndef DSTEPWMXCBWINDOW_H
-#define DSTEPWMXCBWINDOW_H
+#ifndef DSTEPDEBUG_H
+#define DSTEPDEBUG_H
 
-#include "dstepwmxcb.h"
-
-#include <dsteppimpl.h>
-#include <window.h>
-
-#include <QObject>
-
-#include <xcb/xcb.h>
+#include <QString>
 
 namespace dstep
 {
-namespace wm
+namespace misc
 {
 
-using namespace dstep::wm::interfaces;
+namespace {
 
-class DstepWmXcbWindow : public QObject, public Window
+const int kBase16   = 16;
+const int kBase10   = 10;
+const int kBase2    = 2;
+
+}
+
+template<typename T>
+QString hex(T t)
 {
-    Q_OBJECT
-    Q_INTERFACES(dstep::wm::interfaces::Window)
-public:
-    explicit DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
-        xcb_window_t handle, QObject *parent = 0);
+    return "0x" + QString::number(t, kBase16);
+}
 
-signals:
+template<typename T>
+QString dec(T t)
+{
+    return QString::number(t, kBase10);
+}
 
-public slots:
+template<typename T>
+QString bin(T t)
+{
+    return QString::number(t, kBase2);
+}
 
-    // Window interface
-public:
-    int init();
-
-public:
-    xcb_window_t handle() const;
-
-private:
-    DSTEP_DECLARE_PRIVATE(DstepWmXcbWindow)
-};
-
-} // namespace wm
 } // namespace dstep
+} // namespace misc
 
-#endif // DSTEPWMXCBWINDOW_H
+#endif // DSTEPDEBUG_H

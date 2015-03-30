@@ -26,6 +26,8 @@
 
 #include "dstepwmxcbwindow.h"
 
+#include <QDebug>
+
 namespace dstep
 {
 namespace wm
@@ -37,15 +39,33 @@ class DstepWmXcbWindow::DstepWmXcbWindowPrivate
 {
 public:
     DstepWmXcbWindowPrivate(DstepWmXcbWindow *parent,
-        QSharedPointer<DstepWmXcb> xcb, xcb_window_t windowId) :
-        q_ptr(parent), m_xcb(xcb), m_windowId(windowId)
+        QSharedPointer<DstepWmXcb> xcb, xcb_window_t handle) :
+        q_ptr(parent), m_xcb(xcb), m_handle(handle)
     {
         Q_ASSERT(parent);
     }
 
     int init()
     {
-        return -1;
+        Q_Q(DstepWmXcbWindow);
+
+        int err = 0;
+        const DstepWmXcbWindow *parent =
+            qobject_cast<const DstepWmXcbWindow*>(q->parent());
+        if (parent) {
+            // Only root window doesn't have DstepWmXcbWindow as parent
+            if ((err = m_xcb->reparentWindow(handle(), parent->handle()))) {
+                qDebug() << "Can't reparent window, err:" << err;
+                return err;
+            }
+        }
+
+        return err;
+    }
+
+    xcb_window_t handle() const
+    {
+        return m_handle;
     }
 
 private:
@@ -53,19 +73,26 @@ private:
 
     QSharedPointer<DstepWmXcb> m_xcb;
 
-    xcb_window_t m_windowId;
+    xcb_window_t m_handle;
 };
 
 DstepWmXcbWindow::DstepWmXcbWindow(QSharedPointer<DstepWmXcb> xcb,
     xcb_window_t windowId, QObject *parent) :
     QObject(parent), d_ptr(new DstepWmXcbWindowPrivate(this, xcb, windowId))
 {
+    Q_ASSERT(parent);
 }
 
 int DstepWmXcbWindow::init()
 {
     Q_D(DstepWmXcbWindow);
     return d->init();
+}
+
+xcb_window_t DstepWmXcbWindow::handle() const
+{
+    Q_D(const DstepWmXcbWindow);
+    return d->handle();
 }
 
 } // namespace wm

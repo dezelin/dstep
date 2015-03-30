@@ -68,6 +68,8 @@ public:
 
     const xcb_visualtype_t *getVisualFromDepth(const xcb_depth_t *depth) const;
 
+    int reparentWindow(xcb_window_t windowId, xcb_window_t parentId) const;
+
 private:
     DSTEP_DECLARE_PRIVATE(DstepWmXcb)
 };

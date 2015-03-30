@@ -19,7 +19,8 @@ HEADERS += libdstepcommon.h\
         libdstepcommon_global.h \
     callonce.h \
     singleton.h \
-    dsteppimpl.h
+    dsteppimpl.h \
+    dstepdebug.h
 
 unix {
     target.path = /usr/lib
