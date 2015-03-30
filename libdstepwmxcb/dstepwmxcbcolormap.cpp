@@ -59,13 +59,13 @@ public:
         if (!m_visual)
             return -1;
 
-        int ret;
-        if ((ret = initVisual(m_visual)) < 0) {
-            qDebug() << "Error initializing colormap for visual, err:" << ret;
-            return ret;
+        int err;
+        if ((err = initVisual(m_visual)) < 0) {
+            qDebug() << "Error initializing colormap for visual, err:" << err;
+            return err;
         }
 
-        return ret;
+        return err;
     }
 
     QColor colorAt(uint pixel) const

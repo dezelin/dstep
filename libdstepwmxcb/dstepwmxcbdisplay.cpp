@@ -57,15 +57,15 @@ public:
 
     int init()
     {
-        int ret;
-        if ((ret = initXcb()) < 0) {
-            qDebug() << "Can't create xcb adapter instance, err:" << ret;
-            return ret;
+        int err;
+        if ((err = initXcb()) < 0) {
+            qDebug() << "Can't create xcb adapter instance, err:" << err;
+            return err;
         }
 
-        if ((ret = openXcbConnection()) < 0) {
-            qDebug() << "Can't open connection to default display, err:" << ret;
-            return ret;
+        if ((err = openXcbConnection()) < 0) {
+            qDebug() << "Can't open connection to default display, err:" << err;
+            return err;
         }
 
         int i = 0;
@@ -89,7 +89,7 @@ public:
             return true;
         });
 
-        return ret;
+        return err;
     }
 
     const Display::ScreenList &screens() const

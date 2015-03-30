@@ -58,18 +58,18 @@ public:
         Q_ASSERT(m_xcb);
         Q_ASSERT(m_xcbScreen);
 
-        int ret;
-        if ((ret = initScreen(m_xcbScreen)) < 0) {
-            qDebug() << "Error parsing xcb screen object, err:" << ret;
-            return ret;
+        int err;
+        if ((err = initScreen(m_xcbScreen)) < 0) {
+            qDebug() << "Error parsing xcb screen object, err:" << err;
+            return err;
         }
 
-        if ((ret = initWorkspaces()) < 0) {
-            qDebug() << "Error initializing workspaces, err:" << ret;
-            return ret;
+        if ((err = initWorkspaces()) < 0) {
+            qDebug() << "Error initializing workspaces, err:" << err;
+            return err;
         }
 
-        return ret;
+        return err;
     }
 
     Window *rootWindow() const
@@ -162,25 +162,25 @@ private:
         Q_ASSERT(m_xcb);
         Q_ASSERT(screen);
 
-        int ret;
-        if ((ret = initScreenColormap(screen)) < 0) {
-            qDebug() << "Can't initialize screen colormap, err:" << ret;
-            return ret;
+        int err;
+        if ((err = initScreenColormap(screen)) < 0) {
+            qDebug() << "Can't initialize screen colormap, err:" << err;
+            return err;
         }
 
-        if ((ret = initScreenDepths(screen)) < 0) {
-            qDebug() << "Can't enumerate screen depths, err:" << ret;
-            return ret;
+        if ((err = initScreenDepths(screen)) < 0) {
+            qDebug() << "Can't enumerate screen depths, err:" << err;
+            return err;
         }
 
-        if ((ret = initScreenGeometry(screen)) < 0) {
-            qDebug() << "Can't initialize screen geometry, err:" << ret;
-            return ret;
+        if ((err = initScreenGeometry(screen)) < 0) {
+            qDebug() << "Can't initialize screen geometry, err:" << err;
+            return err;
         }
 
-        if ((ret = initRootWindow(screen)) < 0) {
-            qDebug() << "Error initializing root window and it's children, err:" << ret;
-            return ret;
+        if ((err = initRootWindow(screen)) < 0) {
+            qDebug() << "Error initializing root window and it's children, err:" << err;
+            return err;
         }
 
         return 0;
@@ -209,10 +209,10 @@ private:
                 return true;
             }
 
-            int ret;
-            if ((ret = colormap->init()) < 0) {
+            int err;
+            if ((err = colormap->init()) < 0) {
                 qDebug() << "Error initializing colormap for depth" << depth->depth
-                         << " , err:" << ret;
+                         << " , err:" << err;
                 return true;
             }
 

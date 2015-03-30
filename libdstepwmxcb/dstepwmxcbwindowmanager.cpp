@@ -67,14 +67,14 @@ public:
             return -1;
         }
 
-        int ret;
-        if ((ret = display->init()) < 0) {
-            qDebug() << "Error initializing display, err:" << ret;
-            return ret;
+        int err;
+        if ((err = display->init()) < 0) {
+            qDebug() << "Error initializing display, err:" << err;
+            return err;
         }
 
         m_display.swap(display);
-        return ret;
+        return err;
     }
 
     int run()
