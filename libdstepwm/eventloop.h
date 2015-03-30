@@ -27,6 +27,8 @@
 #ifndef EVENTLOOP_H
 #define EVENTLOOP_H
 
+#include "object.h"
+
 #include <QtPlugin>
 
 namespace dstep
@@ -36,7 +38,7 @@ namespace wm
 namespace interfaces
 {
 
-class EventLoop
+class EventLoop : public Object
 {
 public:
     virtual ~EventLoop()

@@ -28,6 +28,7 @@
 #define SCREEN_H
 
 #include "colormap.h"
+#include "object.h"
 #include "window.h"
 #include "workspace.h"
 
@@ -44,7 +45,7 @@ namespace wm
 namespace interfaces
 {
 
-class Screen
+class Screen : public Object
 {
 public:
     virtual ~Screen()

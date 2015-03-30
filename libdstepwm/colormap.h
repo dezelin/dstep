@@ -27,6 +27,8 @@
 #ifndef COLORMAP_H
 #define COLORMAP_H
 
+#include "object.h"
+
 #include <QColor>
 #include <QObject>
 #include <QtPlugin>
@@ -38,7 +40,7 @@ namespace wm
 namespace interfaces
 {
 
-class Colormap
+class Colormap : public Object
 {
 public:
     typedef enum Mode { Direct, Indexed, Gray } Mode;

@@ -28,6 +28,7 @@
 #define ACTIONFACTORY_H
 
 #include "action.h"
+#include "object.h"
 
 #include <QObject>
 #include <QtPlugin>
@@ -40,7 +41,7 @@ namespace wm
 namespace interfaces
 {
 
-class ActionFactory
+class ActionFactory : public Object
 {
 public:
     virtual ~ActionFactory()

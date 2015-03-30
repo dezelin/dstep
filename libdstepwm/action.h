@@ -27,6 +27,8 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include "object.h"
+
 #include <QObject>
 #include <QtPlugin>
 
@@ -37,7 +39,7 @@ namespace wm
 namespace interfaces
 {
 
-class Action
+class Action : public Object
 {
 public:
     virtual ~Action()

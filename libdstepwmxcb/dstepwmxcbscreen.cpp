@@ -132,27 +132,27 @@ private:
             return -1;
         }
 
-        m_xcb->foreachScreenWindow(screen, [this, &rootWindow](const xcb_window_t windowId) {
+        int err = 0;
+        m_xcb->foreachScreenWindow(screen, [&, this](const xcb_window_t windowId) {
             QScopedPointer<Window> window(DstepWmXcbObjectFactoryInstance.createWindow(
-                m_xcb, windowId, rootWindow.data()));
+                m_xcb, windowId, rootWindow.data()->objPtr()));
             if (!window) {
                 qDebug() << "Can't instantiate window, id:" << windowId;
                 return false;
             }
 
+            if ((err = window->init()) < 0) {
+                qDebug() << "Error initializing window, err:" << err;
+                return false;
+            }
 
             return true;
         });
 
-        /*
-        if ((ret = reparentAllWindows(screen)) < 0) {
-            qDebug() << "Reparenting screen windows failed, err:" << ret;
-            return ret;
-        }
-        */
+        if (!err)
+            m_root.swap(rootWindow);
 
-        m_root.swap(rootWindow);
-        return ret;
+        return err;
     }
 
     int initScreen(const xcb_screen_t *screen)

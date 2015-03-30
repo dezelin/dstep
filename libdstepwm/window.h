@@ -27,6 +27,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "object.h"
+
 #include <QtPlugin>
 
 namespace dstep
@@ -36,7 +38,7 @@ namespace wm
 namespace interfaces
 {
 
-class Window
+class Window : public Object
 {
 public:
     virtual ~Window()

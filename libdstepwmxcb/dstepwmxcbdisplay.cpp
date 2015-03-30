@@ -139,6 +139,5 @@ const Display::ScreenList &DstepWmXcbDisplay::screens() const
     return d->screens();
 }
 
-
 } // namespace wm
 } // namespace dstep

@@ -59,16 +59,18 @@ public:
     {
         Q_Q(DstepWmXcb);
 
-        int err = -1;
+        int err = 0;
         if ((m_conn = xcb_connect(0, 0)) == 0) {
-            q->error(err);
+            q->error(-1);
             return -1;
         }
 
-        if ((err = xcb_connection_has_error(m_conn)) != 0)
-            q->error(err);
+        if ((err = xcb_connection_has_error(m_conn)) != 0) {
+            closeConnection();
+            q->error(-err);
+        }
 
-        return err;
+        return -err;
     }
 
     void closeConnection()
@@ -113,7 +115,7 @@ public:
 
         xcb_query_tree_reply_t *reply;
         xcb_query_tree_cookie_t cookie = xcb_query_tree(m_conn, screen->root);
-        if (reply = xcb_query_tree_reply(m_conn, cookie, 0)) {
+        if ((reply = xcb_query_tree_reply(m_conn, cookie, 0)) != 0) {
             xcb_window_t *children = xcb_query_tree_children(reply);
             for (int i = 0; i < xcb_query_tree_children_length(reply); ++i)
                 if (!f(children[i]))

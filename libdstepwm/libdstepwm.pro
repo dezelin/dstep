@@ -49,7 +49,8 @@ HEADERS += libdstepwm.h\
     display.h \
     screen.h \
     workspace.h \
-    colormap.h
+    colormap.h \
+    object.h
 
 unix {
     target.path = /usr/lib

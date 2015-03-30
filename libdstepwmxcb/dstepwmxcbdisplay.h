@@ -46,13 +46,11 @@ class DstepWmXcbDisplay : public QObject, public Display
     Q_OBJECT
     Q_INTERFACES(dstep::wm::interfaces::Display)
 public:
-
     explicit DstepWmXcbDisplay(QObject *parent = 0);
 
 signals:
 
 public slots:
-
 
     // Display interface
 public:
@@ -60,7 +58,7 @@ public:
     const ScreenList& screens() const;
 
 private:
-    DSTEP_DECLARE_PRIVATE(DstepWmXcbDisplay)
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbDisplay)    
 };
 
 } // namespace wm

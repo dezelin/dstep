@@ -27,6 +27,8 @@
 #ifndef WINDOWTHEME_H
 #define WINDOWTHEME_H
 
+#include "object.h"
+
 #include <QtPlugin>
 
 namespace dstep
@@ -36,7 +38,7 @@ namespace wm
 namespace interfaces
 {
 
-class WindowTheme
+class WindowTheme : public Object
 {
 public:
     virtual ~WindowTheme()

@@ -52,7 +52,7 @@ public slots:
 
     // EventFactory interface
 public:
-    virtual Event *createEvent(int type, const QVariant &eventParams) const;
+    Event *createEvent(int type, const QVariant &eventParams) const;
 };
 
 } // namespace wm

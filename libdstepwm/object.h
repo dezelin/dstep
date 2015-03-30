@@ -24,13 +24,10 @@
 // SUCH DAMAGE.
 //
 
-#ifndef WINDOWDECORATOR_H
-#define WINDOWDECORATOR_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
-#include "object.h"
-
-#include <windowtheme.h>
-
+#include <QObject>
 #include <QtPlugin>
 
 namespace dstep
@@ -40,23 +37,22 @@ namespace wm
 namespace interfaces
 {
 
-class WindowDecorator : public Object
+class Object
 {
 public:
-    virtual ~WindowDecorator()
+    virtual ~Object()
     {
     }
 
-    virtual WindowTheme *theme() const = 0;
-    virtual void setTheme(WindowTheme *theme) = 0;
-
+    virtual QObject *objPtr() { return dynamic_cast<QObject*>(this); }
+    virtual const QObject *objPtr() const { return dynamic_cast<const QObject*>(this); }
 };
 
 } // namespace interfaces
 } // namespace wm
 } // namespace dstep
 
-#define WindowDecorator_iid "org.dstep.wm.interfaces.WindowDecorator/1.0"
-Q_DECLARE_INTERFACE(dstep::wm::interfaces::WindowDecorator, WindowDecorator_iid)
+#define Object_iid "org.dstep.wm.interfaces.Object/1.0"
+Q_DECLARE_INTERFACE(dstep::wm::interfaces::Object, Object_iid)
 
-#endif // WINDOWDECORATOR_H
+#endif // OBJECT_H

@@ -25,6 +25,7 @@
 #define EVENTFACTORY_H
 
 #include "event.h"
+#include "object.h"
 
 #include <QObject>
 #include <QtPlugin>
@@ -37,7 +38,7 @@ namespace wm
 namespace interfaces
 {
 
-class EventFactory
+class EventFactory : public Object
 {
 public:
     virtual ~EventFactory()

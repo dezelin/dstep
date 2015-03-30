@@ -29,6 +29,7 @@
 
 #include "actionfactory.h"
 #include "eventfactory.h"
+#include "object.h"
 #include "objectfactory.h"
 
 #include <QObject>
@@ -41,7 +42,7 @@ namespace wm
 namespace interfaces
 {
 
-class DstepWmPlugin
+class DstepWmPlugin : public Object
 {
 public:
     virtual ~DstepWmPlugin()

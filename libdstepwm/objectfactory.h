@@ -27,6 +27,7 @@
 #ifndef OBJECTFACTORY_H
 #define OBJECTFACTORY_H
 
+#include "object.h"
 #include "windowmanager.h"
 
 #include <QObject>
@@ -39,7 +40,7 @@ namespace wm
 namespace interfaces
 {
 
-class ObjectFactory
+class ObjectFactory : public Object
 {
 public:
     virtual ~ObjectFactory()

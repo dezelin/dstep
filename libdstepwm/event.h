@@ -27,6 +27,8 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include "object.h"
+
 #include <QObject>
 #include <QtPlugin>
 
@@ -37,7 +39,7 @@ namespace wm
 namespace interfaces
 {
 
-class Event
+class Event : public Object
 {
 public:
     virtual ~Event()

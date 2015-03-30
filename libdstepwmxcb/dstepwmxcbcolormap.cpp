@@ -45,8 +45,9 @@ class DstepWmXcbColormap::DstepWmXcbColormapPrivate
 public:
     DstepWmXcbColormapPrivate(DstepWmXcbColormap *parent,
         const xcb_visualtype_t *visual, int depth) :
-        q_ptr(parent), m_bitsPerRgb(0), m_mode(Colormap::Direct), m_depth(depth), m_size(-1),
-            m_redMask(0), m_greenMask(0), m_blueMask(0), m_visual(visual)
+        q_ptr(parent), m_mode(Colormap::Direct), m_depth(depth), m_size(-1),
+            m_bitsPerRgb(0), m_redMask(0), m_greenMask(0), m_blueMask(0),
+            m_visual(visual)
     {
         Q_ASSERT(parent);
         Q_ASSERT(visual);

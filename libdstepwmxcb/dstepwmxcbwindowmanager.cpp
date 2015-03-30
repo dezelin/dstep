@@ -88,8 +88,7 @@ private:
 };
 
 DstepWmXcbWindowManager::DstepWmXcbWindowManager(QObject *parent) :
-    QObject(parent),
-    d_ptr(new DstepWmXcbWindowManagerPrivate(this))
+    QObject(parent), d_ptr(new DstepWmXcbWindowManagerPrivate(this))
 {
 }
 

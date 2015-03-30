@@ -39,11 +39,6 @@ DstepWmXcbPlugin::DstepWmXcbPlugin(QObject *parent) :
 {
 }
 
-ObjectFactory *DstepWmXcbPlugin::createObjectFactory() const
-{
-    return new DstepWmXcbObjectFactory;
-}
-
 ActionFactory *DstepWmXcbPlugin::createActionFactory() const
 {
     return new DstepWmXcbActionFactory;
@@ -52,6 +47,11 @@ ActionFactory *DstepWmXcbPlugin::createActionFactory() const
 EventFactory *DstepWmXcbPlugin::createEventFactory() const
 {
     return new DstepWmXcbEventFactory;
+}
+
+ObjectFactory *DstepWmXcbPlugin::createObjectFactory() const
+{
+    return new DstepWmXcbObjectFactory;
 }
 
 } // namespace wm

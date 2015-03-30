@@ -27,6 +27,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "object.h"
 #include "screen.h"
 
 #include <QList>
@@ -40,7 +41,7 @@ namespace wm
 namespace interfaces
 {
 
-class Display
+class Display : public Object
 {
 public:
     typedef QList<Screen*> ScreenList;

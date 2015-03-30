@@ -67,7 +67,7 @@ public:
     int size() const;
 
 private:
-    DSTEP_DECLARE_PRIVATE(DstepWmXcbColormap)
+    DSTEP_DECLARE_PRIVATE(DstepWmXcbColormap)  
 };
 
 } // namespace wm

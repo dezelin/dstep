@@ -27,6 +27,8 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
+#include "object.h"
+
 #include <QObject>
 #include <QtPlugin>
 
@@ -37,7 +39,7 @@ namespace wm
 namespace interfaces
 {
 
-class Workspace
+class Workspace : public Object
 {
 public:
     virtual ~Workspace()

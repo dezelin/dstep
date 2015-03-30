@@ -27,6 +27,8 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
+#include "object.h"
+
 #include <eventloop.h>
 #include <windowdecorator.h>
 
@@ -39,7 +41,7 @@ namespace wm
 namespace interfaces
 {
 
-class WindowManager
+class WindowManager : public Object
 {
 public:
     virtual ~WindowManager()
