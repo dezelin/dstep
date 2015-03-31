@@ -68,7 +68,10 @@ public:
 
     const xcb_visualtype_t *getVisualFromDepth(const xcb_depth_t *depth) const;
 
-    int reparentWindow(xcb_window_t windowId, xcb_window_t parentId) const;
+    int reparentWindow(xcb_window_t handle, xcb_window_t parent) const;
+
+    int initWindowEvents(xcb_window_t handle, uint32_t eventMask) const;
+    int initWindowExposureEvents(xcb_window_t handle) const;
 
     xcb_generic_event_t *waitForEvent() const;
 

@@ -54,7 +54,8 @@ public:
     {
         xcb_generic_event_t *event;
         while ((event = m_xcb->waitForEvent()) != 0) {
-            qDebug() << "Received event of type:" << dstep::misc::hex(event->response_type);
+            qDebug().noquote() << "Received event of type:" <<
+                dstep::misc::hex(event->response_type);
             handleEvent(event);
             free(event);
         }

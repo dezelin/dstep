@@ -80,7 +80,7 @@ public:
             if (!screen)
                 return true;
 
-            qDebug() << "Enumerating screen" << i++;
+            qDebug() << "Initializing screen" << i++;
             QScopedPointer<Screen> dstepScreen(
                 DstepWmXcbObjectFactoryInstance.createScreen(m_xcb, screen));
             if (!dstepScreen) {

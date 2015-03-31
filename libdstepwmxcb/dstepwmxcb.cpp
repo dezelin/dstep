@@ -56,6 +56,25 @@ public:
         return 0;
     }
 
+    int initWindowEvents(xcb_window_t handle, uint32_t eventMask) const
+    {
+        Q_ASSERT(m_conn);
+
+        uint32_t values[1] = { eventMask };
+        uint32_t mask = XCB_CW_EVENT_MASK;
+        xcb_void_cookie_t cookie = xcb_change_window_attributes_checked(m_conn,
+            handle, mask, values);
+
+        int errCode = 0;
+        xcb_generic_error_t *err = xcb_request_check(m_conn, cookie);
+        if (err) {
+            errCode = err->error_code;
+            free(err);
+        }
+
+        return -errCode;
+    }
+
     int openConnection()
     {
         Q_Q(DstepWmXcb);
@@ -155,7 +174,7 @@ public:
             errCode = err->error_code;
 
         free(err);
-        return errCode;
+        return -errCode;
     }
 
     int screenCount() const
@@ -249,10 +268,25 @@ const xcb_visualtype_t *DstepWmXcb::getVisualFromDepth(const xcb_depth_t *depth)
     return d->getVisualFromDepth(depth);
 }
 
-int DstepWmXcb::reparentWindow(xcb_window_t windowId, xcb_window_t parentId) const
+int DstepWmXcb::reparentWindow(xcb_window_t handle, xcb_window_t parent) const
 {
     Q_D(const DstepWmXcb);
-    return d->reparentWindow(windowId, parentId);
+    return d->reparentWindow(handle, parent);
+}
+
+int DstepWmXcb::initWindowEvents(xcb_window_t handle, uint32_t eventMask) const
+{
+    Q_D(const DstepWmXcb);
+    return d->initWindowEvents(handle, eventMask);
+}
+
+int DstepWmXcb::initWindowExposureEvents(xcb_window_t handle) const
+{
+    const uint32_t eventMask = XCB_EVENT_MASK_EXPOSURE |
+        XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY |
+        XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT |
+        XCB_EVENT_MASK_STRUCTURE_NOTIFY;
+    return initWindowEvents(handle, eventMask);
 }
 
 xcb_generic_event_t *DstepWmXcb::waitForEvent() const
