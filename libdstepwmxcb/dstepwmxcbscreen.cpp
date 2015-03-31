@@ -147,7 +147,7 @@ private:
             QScopedPointer<Window> window(DstepWmXcbObjectFactoryInstance.createWindow(
                 m_xcb, handle, rootWindow.data()->objPtr()));
             qDebug().noquote() << "Reparenting window, handle:" << dstep::misc::hex(handle)
-                << ", parent:" << hex(screen->root);
+                << ", parent:" << dstep::misc::hex(screen->root);
             if (!window) {
                 qDebug() << "Can't instantiate window.";
                 return false;
