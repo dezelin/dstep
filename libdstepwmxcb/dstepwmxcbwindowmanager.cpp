@@ -79,7 +79,8 @@ public:
 
     int run()
     {
-        return -1;
+        Q_ASSERT(m_display);
+        return m_display->run();
     }
 
 private:

@@ -28,6 +28,7 @@
 
 #include <dsteppimpl.h>
 
+#include <QDebug>
 #include <QList>
 
 #include <xcb/xcb.h>
@@ -140,8 +141,10 @@ public:
         xcb_generic_error_t *err = 0;
         xcb_get_geometry_cookie_t geomCookie = xcb_get_geometry(m_conn, handle);
         xcb_get_geometry_reply_t *geomReply = xcb_get_geometry_reply(m_conn, geomCookie, &err);
+
         Q_ASSERT(!err);
         Q_ASSERT(geomReply->root == parent);
+
         if (!err) {
             Q_ASSERT(geomReply);
             xcb_void_cookie_t reparentCookie = xcb_reparent_window_checked(m_conn,
@@ -159,6 +162,36 @@ public:
     {
         Q_ASSERT(m_conn);
         return xcb_setup_roots_length(xcb_get_setup(m_conn));
+    }
+
+    xcb_generic_event_t *waitForEvent() const
+    {
+        Q_ASSERT(m_conn);
+        xcb_generic_event_t *event = xcb_poll_for_event(m_conn);
+        if (event)
+            return event;
+
+        int err;
+        if ((err = xcb_flush(m_conn)) < 0) {
+            qDebug() << "Error flushing xcb, err:" << err;
+            return 0;
+        }
+
+        fd_set readfds;
+        int fdconn = xcb_get_file_descriptor(m_conn);
+        Q_ASSERT(fdconn);
+
+        FD_ZERO(&readfds);
+        FD_SET(fdconn, &readfds);
+
+        // Wait using select so we don't block signals
+        if ((err = select(fdconn + 1, &readfds, 0, 0, 0)) < 0) {
+            qDebug() << "Error on connection fd select, err:" << err;
+            return 0;
+        }
+
+        // We now have a new event inside the queue
+        return xcb_poll_for_event(m_conn);
     }
 
 private:
@@ -220,6 +253,12 @@ int DstepWmXcb::reparentWindow(xcb_window_t windowId, xcb_window_t parentId) con
 {
     Q_D(const DstepWmXcb);
     return d->reparentWindow(windowId, parentId);
+}
+
+xcb_generic_event_t *DstepWmXcb::waitForEvent() const
+{
+    Q_D(const DstepWmXcb);
+    return d->waitForEvent();
 }
 
 int DstepWmXcb::screenCount() const

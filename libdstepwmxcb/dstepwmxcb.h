@@ -70,6 +70,8 @@ public:
 
     int reparentWindow(xcb_window_t windowId, xcb_window_t parentId) const;
 
+    xcb_generic_event_t *waitForEvent() const;
+
 private:
     DSTEP_DECLARE_PRIVATE(DstepWmXcb)
 };

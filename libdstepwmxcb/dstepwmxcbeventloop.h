@@ -27,6 +27,8 @@
 #ifndef DSTEPWMXCBEVENTLOOP_H
 #define DSTEPWMXCBEVENTLOOP_H
 
+#include "dstepwmxcb.h"
+
 #include <dsteppimpl.h>
 #include <eventloop.h>
 
@@ -44,7 +46,8 @@ class DstepWmXcbEventLoop : public QObject, public EventLoop
     Q_OBJECT
     Q_INTERFACES(dstep::wm::interfaces::EventLoop)
 public:
-    explicit DstepWmXcbEventLoop(QObject *parent = 0);
+    explicit DstepWmXcbEventLoop(QSharedPointer<DstepWmXcb> xcb,
+        QObject *parent = 0);
 
 signals:
 

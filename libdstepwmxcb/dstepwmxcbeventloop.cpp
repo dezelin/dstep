@@ -26,7 +26,12 @@
 
 #include "dstepwmxcbeventloop.h"
 
+#include <dstepdebug.h>
+
+#include <QDebug>
 #include <QObject>
+
+#include <xcb/xcb.h>
 
 namespace dstep
 {
@@ -38,22 +43,42 @@ using namespace dstep::wm::interfaces;
 class DstepWmXcbEventLoop::DstepWmXcbEventLoopPrivate
 {
 public:
-    DstepWmXcbEventLoopPrivate(DstepWmXcbEventLoop *parent) :
-        q_ptr(parent)
+    DstepWmXcbEventLoopPrivate(DstepWmXcbEventLoop *parent,
+        QSharedPointer<DstepWmXcb> xcb) :
+        q_ptr(parent), m_xcb(xcb)
     {
+        Q_ASSERT(parent);
     }
 
     int run()
     {
+        xcb_generic_event_t *event;
+        while ((event = m_xcb->waitForEvent()) != 0) {
+            qDebug() << "Received event of type:" << dstep::misc::hex(event->response_type);
+            handleEvent(event);
+            free(event);
+        }
+
+        return 0;
+    }
+
+private:
+    int handleEvent(const xcb_generic_event_t *event)
+    {
+        Q_ASSERT(event);
+
         return 0;
     }
 
 private:
     DSTEP_DECLARE_PUBLIC(DstepWmXcbEventLoop)
+
+    QSharedPointer<DstepWmXcb> m_xcb;
 };
 
-DstepWmXcbEventLoop::DstepWmXcbEventLoop(QObject *parent) :
-    QObject(parent), d_ptr(new DstepWmXcbEventLoopPrivate(this))
+DstepWmXcbEventLoop::DstepWmXcbEventLoop(QSharedPointer<DstepWmXcb> xcb,
+    QObject *parent) :
+    QObject(parent), d_ptr(new DstepWmXcbEventLoopPrivate(this, xcb))
 {
 }
 

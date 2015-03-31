@@ -72,7 +72,7 @@ public:
 public:
     Colormap *createColormap(const xcb_visualtype_t *visual, int depth) const;
     Display *createDisplay() const;
-    EventLoop *createEventLoop() const;
+    EventLoop *createEventLoop(QSharedPointer<DstepWmXcb> xcb) const;
     Screen *createScreen(QSharedPointer<DstepWmXcb> xcb, const xcb_screen_t *screen) const;
     Window *createWindow(QSharedPointer<DstepWmXcb> xcb, xcb_window_t windowId, QObject *parent) const;
     WindowDecorator *createWindowDecorator() const;

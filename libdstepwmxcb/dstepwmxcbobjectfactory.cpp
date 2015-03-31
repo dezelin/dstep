@@ -53,9 +53,9 @@ Display *DstepWmXcbObjectFactory::createDisplay() const
     return new DstepWmXcbDisplay;
 }
 
-EventLoop *DstepWmXcbObjectFactory::createEventLoop() const
+EventLoop *DstepWmXcbObjectFactory::createEventLoop(QSharedPointer<DstepWmXcb> xcb) const
 {
-    return new DstepWmXcbEventLoop;
+    return new DstepWmXcbEventLoop(xcb);
 }
 
 Screen *DstepWmXcbObjectFactory::createScreen(QSharedPointer<DstepWmXcb> xcb,

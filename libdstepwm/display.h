@@ -44,14 +44,13 @@ namespace interfaces
 class Display : public Object
 {
 public:
-    typedef QList<Screen*> ScreenList;
-
     virtual ~Display()
     {
     }
 
     virtual int init() = 0;
-    virtual const ScreenList& screens() const = 0;
+    virtual int run() = 0;
+    virtual const QList<Screen*>& screens() const = 0;
 };
 
 } // namespace interfaces

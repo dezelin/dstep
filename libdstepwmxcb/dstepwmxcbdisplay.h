@@ -55,7 +55,8 @@ public slots:
     // Display interface
 public:
     int init();
-    const ScreenList& screens() const;
+    int run();
+    const QList<Screen *> &screens() const;
 
 private:
     DSTEP_DECLARE_PRIVATE(DstepWmXcbDisplay)    

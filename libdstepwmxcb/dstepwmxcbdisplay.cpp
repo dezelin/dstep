@@ -29,6 +29,7 @@
 #include "dstepwmxcbobjectfactory.h"
 
 #include <QDebug>
+#include <QList>
 #include <QObject>
 #include <QSharedPointer>
 
@@ -68,6 +69,11 @@ public:
             return err;
         }
 
+        if ((err = initEventLoop()) < 0) {
+            qDebug() << "Error initializing event loop, err:" << err;
+            return err;
+        }
+
         int i = 0;
         m_xcb->foreachScreen([this, &i](const xcb_screen_t *screen) {
             Q_ASSERT(screen);
@@ -92,12 +98,30 @@ public:
         return err;
     }
 
-    const Display::ScreenList &screens() const
+    int run()
+    {
+        Q_ASSERT(m_eventLoop);
+        return m_eventLoop->run();
+    }
+
+    const QList<Screen*> &screens() const
     {
         return m_screens;
     }
 
 private:
+    int initEventLoop()
+    {
+        Q_ASSERT(m_xcb);
+        QScopedPointer<EventLoop> eventLoop(
+            DstepWmXcbObjectFactoryInstance.createEventLoop(m_xcb));
+        if (!eventLoop)
+            return -1;
+
+        m_eventLoop.swap(eventLoop);
+        return 0;
+    }
+
     int initXcb()
     {
         Q_ASSERT(m_xcb);
@@ -119,7 +143,8 @@ private:
 private:
     DSTEP_DECLARE_PUBLIC(DstepWmXcbDisplay)
     QSharedPointer<DstepWmXcb> m_xcb;
-    Display::ScreenList m_screens;
+    QScopedPointer<EventLoop> m_eventLoop;
+    QList<Screen*> m_screens;
 };
 
 DstepWmXcbDisplay::DstepWmXcbDisplay(QObject *parent) :
@@ -133,7 +158,13 @@ int DstepWmXcbDisplay::init()
     return d->init();
 }
 
-const Display::ScreenList &DstepWmXcbDisplay::screens() const
+int DstepWmXcbDisplay::run()
+{
+    Q_D(DstepWmXcbDisplay);
+    return d->run();
+}
+
+const QList<Screen *> &DstepWmXcbDisplay::screens() const
 {
     Q_D(const DstepWmXcbDisplay);
     return d->screens();
